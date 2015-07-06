@@ -7,19 +7,15 @@
 //
 
 import UIKit
+import C4Core
+import C4Animation
+import C4UI
 
-class ViewController: UIViewController {
+class ViewController: C4CanvasController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    override func setup() {
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
 }
 

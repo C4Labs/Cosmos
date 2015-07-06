@@ -13,6 +13,12 @@
 		1FC40CB91B4A170500F933D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FC40CB81B4A170500F933D4 /* Images.xcassets */; };
 		1FC40CBC1B4A170500F933D4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FC40CBA1B4A170500F933D4 /* LaunchScreen.xib */; };
 		1FC40CC81B4A170500F933D4 /* CosmosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC40CC71B4A170500F933D4 /* CosmosTests.swift */; };
+		1FC40CED1B4A173D00F933D4 /* C4UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CDB1B4A171C00F933D4 /* C4UI.framework */; };
+		1FC40CEE1B4A173D00F933D4 /* C4UI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CDB1B4A171C00F933D4 /* C4UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1FC40CF11B4A173D00F933D4 /* C4Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CDF1B4A171C00F933D4 /* C4Core.framework */; };
+		1FC40CF21B4A173D00F933D4 /* C4Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CDF1B4A171C00F933D4 /* C4Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1FC40CF51B4A173D00F933D4 /* C4Animation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CE31B4A171C00F933D4 /* C4Animation.framework */; };
+		1FC40CF61B4A173D00F933D4 /* C4Animation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CE31B4A171C00F933D4 /* C4Animation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +29,86 @@
 			remoteGlobalIDString = 1FC40CAB1B4A170500F933D4;
 			remoteInfo = Cosmos;
 		};
+		1FC40CDA1B4A171C00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614F824319DB5ED3001DF1D4;
+			remoteInfo = C4UI;
+		};
+		1FC40CDC1B4A171C00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614F824E19DB5ED4001DF1D4;
+			remoteInfo = C4UITests;
+		};
+		1FC40CDE1B4A171C00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A9596D191A054A960023323D;
+			remoteInfo = C4Core;
+		};
+		1FC40CE01B4A171C00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A9596D231A054A960023323D;
+			remoteInfo = C4CoreTests;
+		};
+		1FC40CE21B4A171C00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A9596D8A1A089E9F0023323D;
+			remoteInfo = C4Animation;
+		};
+		1FC40CE41B4A171C00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A9596D941A089EA00023323D;
+			remoteInfo = C4AnimationTests;
+		};
+		1FC40CEF1B4A173D00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614F824219DB5ED3001DF1D4;
+			remoteInfo = C4UI;
+		};
+		1FC40CF31B4A173D00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A9596D181A054A960023323D;
+			remoteInfo = C4Core;
+		};
+		1FC40CF71B4A173D00F933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A9596D891A089E9F0023323D;
+			remoteInfo = C4Animation;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1FC40CF91B4A173D00F933D4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1FC40CF21B4A173D00F933D4 /* C4Core.framework in Embed Frameworks */,
+				1FC40CEE1B4A173D00F933D4 /* C4UI.framework in Embed Frameworks */,
+				1FC40CF61B4A173D00F933D4 /* C4Animation.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1FC40CAC1B4A170500F933D4 /* Cosmos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cosmos.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +121,7 @@
 		1FC40CC11B4A170500F933D4 /* CosmosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CosmosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC40CC61B4A170500F933D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FC40CC71B4A170500F933D4 /* CosmosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CosmosTests.swift; sourceTree = "<group>"; };
+		1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = C4iOS.xcodeproj; path = ../../C4iOS/C4iOS.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +129,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FC40CF11B4A173D00F933D4 /* C4Core.framework in Frameworks */,
+				1FC40CED1B4A173D00F933D4 /* C4UI.framework in Frameworks */,
+				1FC40CF51B4A173D00F933D4 /* C4Animation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +171,7 @@
 				1FC40CB51B4A170500F933D4 /* Main.storyboard */,
 				1FC40CB81B4A170500F933D4 /* Images.xcassets */,
 				1FC40CBA1B4A170500F933D4 /* LaunchScreen.xib */,
+				1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */,
 				1FC40CAF1B4A170500F933D4 /* Supporting Files */,
 			);
 			path = Cosmos;
@@ -112,6 +202,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		1FC40CD21B4A171C00F933D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1FC40CDB1B4A171C00F933D4 /* C4UI.framework */,
+				1FC40CDD1B4A171C00F933D4 /* C4UITests.xctest */,
+				1FC40CDF1B4A171C00F933D4 /* C4Core.framework */,
+				1FC40CE11B4A171C00F933D4 /* C4CoreTests.xctest */,
+				1FC40CE31B4A171C00F933D4 /* C4Animation.framework */,
+				1FC40CE51B4A171C00F933D4 /* C4AnimationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,10 +225,14 @@
 				1FC40CA81B4A170500F933D4 /* Sources */,
 				1FC40CA91B4A170500F933D4 /* Frameworks */,
 				1FC40CAA1B4A170500F933D4 /* Resources */,
+				1FC40CF91B4A173D00F933D4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1FC40CF01B4A173D00F933D4 /* PBXTargetDependency */,
+				1FC40CF41B4A173D00F933D4 /* PBXTargetDependency */,
+				1FC40CF81B4A173D00F933D4 /* PBXTargetDependency */,
 			);
 			name = Cosmos;
 			productName = Cosmos;
@@ -179,6 +286,12 @@
 			mainGroup = 1FC40CA31B4A170500F933D4;
 			productRefGroup = 1FC40CAD1B4A170500F933D4 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1FC40CD21B4A171C00F933D4 /* Products */;
+					ProjectRef = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1FC40CAB1B4A170500F933D4 /* Cosmos */,
@@ -186,6 +299,51 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1FC40CDB1B4A171C00F933D4 /* C4UI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = C4UI.framework;
+			remoteRef = 1FC40CDA1B4A171C00F933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC40CDD1B4A171C00F933D4 /* C4UITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = C4UITests.xctest;
+			remoteRef = 1FC40CDC1B4A171C00F933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC40CDF1B4A171C00F933D4 /* C4Core.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = C4Core.framework;
+			remoteRef = 1FC40CDE1B4A171C00F933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC40CE11B4A171C00F933D4 /* C4CoreTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = C4CoreTests.xctest;
+			remoteRef = 1FC40CE01B4A171C00F933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC40CE31B4A171C00F933D4 /* C4Animation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = C4Animation.framework;
+			remoteRef = 1FC40CE21B4A171C00F933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FC40CE51B4A171C00F933D4 /* C4AnimationTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = C4AnimationTests.xctest;
+			remoteRef = 1FC40CE41B4A171C00F933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1FC40CAA1B4A170500F933D4 /* Resources */ = {
@@ -232,6 +390,21 @@
 			isa = PBXTargetDependency;
 			target = 1FC40CAB1B4A170500F933D4 /* Cosmos */;
 			targetProxy = 1FC40CC21B4A170500F933D4 /* PBXContainerItemProxy */;
+		};
+		1FC40CF01B4A173D00F933D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = C4UI;
+			targetProxy = 1FC40CEF1B4A173D00F933D4 /* PBXContainerItemProxy */;
+		};
+		1FC40CF41B4A173D00F933D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = C4Core;
+			targetProxy = 1FC40CF31B4A173D00F933D4 /* PBXContainerItemProxy */;
+		};
+		1FC40CF81B4A173D00F933D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = C4Animation;
+			targetProxy = 1FC40CF71B4A173D00F933D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -409,6 +582,7 @@
 				1FC40CCD1B4A170500F933D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1FC40CCE1B4A170500F933D4 /* Build configuration list for PBXNativeTarget "CosmosTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +591,7 @@
 				1FC40CD01B4A170500F933D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
