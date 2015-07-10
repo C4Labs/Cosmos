@@ -8,7 +8,6 @@
 
 import UIKit
 import C4Core
-import C4Animation
 import C4UI
 
 class ViewController: C4CanvasController {

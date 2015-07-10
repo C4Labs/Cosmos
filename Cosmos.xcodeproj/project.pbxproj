@@ -17,8 +17,6 @@
 		1FC40CEE1B4A173D00F933D4 /* C4UI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CDB1B4A171C00F933D4 /* C4UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1FC40CF11B4A173D00F933D4 /* C4Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CDF1B4A171C00F933D4 /* C4Core.framework */; };
 		1FC40CF21B4A173D00F933D4 /* C4Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CDF1B4A171C00F933D4 /* C4Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1FC40CF51B4A173D00F933D4 /* C4Animation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CE31B4A171C00F933D4 /* C4Animation.framework */; };
-		1FC40CF61B4A173D00F933D4 /* C4Animation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC40CE31B4A171C00F933D4 /* C4Animation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,20 +55,6 @@
 			remoteGlobalIDString = A9596D231A054A960023323D;
 			remoteInfo = C4CoreTests;
 		};
-		1FC40CE21B4A171C00F933D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9596D8A1A089E9F0023323D;
-			remoteInfo = C4Animation;
-		};
-		1FC40CE41B4A171C00F933D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A9596D941A089EA00023323D;
-			remoteInfo = C4AnimationTests;
-		};
 		1FC40CEF1B4A173D00F933D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
@@ -85,13 +69,6 @@
 			remoteGlobalIDString = A9596D181A054A960023323D;
 			remoteInfo = C4Core;
 		};
-		1FC40CF71B4A173D00F933D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1FC40CD11B4A171C00F933D4 /* C4iOS.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A9596D891A089E9F0023323D;
-			remoteInfo = C4Animation;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,7 +80,6 @@
 			files = (
 				1FC40CF21B4A173D00F933D4 /* C4Core.framework in Embed Frameworks */,
 				1FC40CEE1B4A173D00F933D4 /* C4UI.framework in Embed Frameworks */,
-				1FC40CF61B4A173D00F933D4 /* C4Animation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,7 +107,6 @@
 			files = (
 				1FC40CF11B4A173D00F933D4 /* C4Core.framework in Frameworks */,
 				1FC40CED1B4A173D00F933D4 /* C4UI.framework in Frameworks */,
-				1FC40CF51B4A173D00F933D4 /* C4Animation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,8 +184,6 @@
 				1FC40CDD1B4A171C00F933D4 /* C4UITests.xctest */,
 				1FC40CDF1B4A171C00F933D4 /* C4Core.framework */,
 				1FC40CE11B4A171C00F933D4 /* C4CoreTests.xctest */,
-				1FC40CE31B4A171C00F933D4 /* C4Animation.framework */,
-				1FC40CE51B4A171C00F933D4 /* C4AnimationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -232,7 +205,6 @@
 			dependencies = (
 				1FC40CF01B4A173D00F933D4 /* PBXTargetDependency */,
 				1FC40CF41B4A173D00F933D4 /* PBXTargetDependency */,
-				1FC40CF81B4A173D00F933D4 /* PBXTargetDependency */,
 			);
 			name = Cosmos;
 			productName = Cosmos;
@@ -329,20 +301,6 @@
 			remoteRef = 1FC40CE01B4A171C00F933D4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1FC40CE31B4A171C00F933D4 /* C4Animation.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = C4Animation.framework;
-			remoteRef = 1FC40CE21B4A171C00F933D4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1FC40CE51B4A171C00F933D4 /* C4AnimationTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = C4AnimationTests.xctest;
-			remoteRef = 1FC40CE41B4A171C00F933D4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -400,11 +358,6 @@
 			isa = PBXTargetDependency;
 			name = C4Core;
 			targetProxy = 1FC40CF31B4A173D00F933D4 /* PBXContainerItemProxy */;
-		};
-		1FC40CF81B4A173D00F933D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = C4Animation;
-			targetProxy = 1FC40CF71B4A173D00F933D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
