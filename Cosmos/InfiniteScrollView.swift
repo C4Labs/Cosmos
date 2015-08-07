@@ -30,16 +30,25 @@ class InfiniteScrollView: UIScrollView {
         if curr.x < 0 {
             //update x to the end of the scrollview
             curr.x = contentSize.width - frame.width
-            //set the content offset for the view
-            contentOffset = curr
         }
-            //if the x value is greater than the width - frame width
-            //(i.e. when the top-right point goes beyond contentSize.width)
+        //if the x value is greater than the width - frame width
+        //(i.e. when the top-right point goes beyond contentSize.width)
         else if curr.x >= contentSize.width - frame.width {
             //update x to the beginning of the scrollview
             curr.x = 0
-            //set the content offset for the view
-            contentOffset = curr
         }
+
+        //if the value of y is less than zero
+        if curr.y < 0 {
+            //update x to the end of the scrollview
+            curr.y = contentSize.height - frame.height
+        }
+        //if the y value is greater than the height - frame height
+        //(i.e. when the top-right point goes beyond contentSize.width)
+        else if curr.y >= contentSize.height - frame.height {
+            //update x to the beginning of the scrollview
+            curr.y = 0
+        }
+        contentOffset = curr
     }
 }
