@@ -12,6 +12,7 @@
 		1F0556291B746DD200C05DBB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F0556271B746DD200C05DBB /* Main.storyboard */; };
 		1F05562B1B746DD200C05DBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F05562A1B746DD200C05DBB /* Assets.xcassets */; };
 		1F05562E1B746DD200C05DBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F05562C1B746DD200C05DBB /* LaunchScreen.storyboard */; };
+		1F0556431B746EB900C05DBB /* InfiniteScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		1F05562D1B746DD200C05DBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F05562F1B746DD200C05DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F0556351B746DF400C05DBB /* C4iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = C4iOS.xcodeproj; path = ../../C4iOS/C4iOS.xcodeproj; sourceTree = "<group>"; };
+		1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			children = (
 				1F0556231B746DD200C05DBB /* AppDelegate.swift */,
 				1F0556251B746DD200C05DBB /* ViewController.swift */,
+				1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */,
 				1F0556271B746DD200C05DBB /* Main.storyboard */,
 				1F05562A1B746DD200C05DBB /* Assets.xcassets */,
 				1F05562C1B746DD200C05DBB /* LaunchScreen.storyboard */,
@@ -200,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F0556431B746EB900C05DBB /* InfiniteScrollView.swift in Sources */,
 				1F0556261B746DD200C05DBB /* ViewController.swift in Sources */,
 				1F0556241B746DD200C05DBB /* AppDelegate.swift in Sources */,
 			);
