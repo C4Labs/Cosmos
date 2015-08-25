@@ -15,6 +15,7 @@
 		1F0556431B746EB900C05DBB /* InfiniteScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */; };
 		1F0556451B746F1200C05DBB /* C4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F05563C1B746DF500C05DBB /* C4.framework */; };
 		1F0556461B746F1200C05DBB /* C4.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F05563C1B746DF500C05DBB /* C4.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1F7441961B8C4F710030B671 /* AstrologicalSignProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		1F05562F1B746DD200C05DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F0556351B746DF400C05DBB /* C4iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = C4iOS.xcodeproj; path = ../../C4iOS/C4iOS.xcodeproj; sourceTree = "<group>"; };
 		1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollView.swift; sourceTree = "<group>"; };
+		1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstrologicalSignProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			children = (
 				1F0556231B746DD200C05DBB /* AppDelegate.swift */,
 				1F0556251B746DD200C05DBB /* ViewController.swift */,
+				1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */,
 				1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */,
 				1F0556271B746DD200C05DBB /* Main.storyboard */,
 				1F05562A1B746DD200C05DBB /* Assets.xcassets */,
@@ -230,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F0556431B746EB900C05DBB /* InfiniteScrollView.swift in Sources */,
+				1F7441961B8C4F710030B671 /* AstrologicalSignProvider.swift in Sources */,
 				1F0556261B746DD200C05DBB /* ViewController.swift in Sources */,
 				1F0556241B746DD200C05DBB /* AppDelegate.swift in Sources */,
 			);
