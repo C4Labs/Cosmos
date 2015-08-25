@@ -389,6 +389,7 @@
 				1F0556341B746DD200C05DBB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
