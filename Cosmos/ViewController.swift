@@ -10,49 +10,59 @@ import UIKit
 import C4
 
 class ViewController: C4CanvasController {
-
-    let isv = InfiniteScrollView()
+    //creates an empty variable array to which we'll add layers
+    var layers = [InfiniteScrollView]()
 
     override func setup() {
-        isv.frame = CGRect(canvas.frame)
-        canvas.add(isv)
-        addVisualIndicators()
-    }
+        //loops the code while the number of layers in our array is less than 10
+        repeat {
+            //creates a layer whose frame is the same as the canvas
+            let layer = InfiniteScrollView(frame: view.frame)
+            //sets the content size for each layer, keeping 0 for height to prevent vertical scrolling
+            layer.contentSize = CGSizeMake(layer.frame.size.width * 10, 0)
+            //add the layer to the canvas and to the array
+            canvas.add(layer)
+            layers.append(layer)
 
-    func addVisualIndicators() {
-        let gap = 50.0
-        let margin = 20.0 //margin
-        let count = 20
-        let width = Double(count + 1) * gap + margin
-        let height = Double(count + 1) * gap + margin
-
-        isv.contentSize = CGSizeMake(CGFloat(width-margin) + isv.frame.width, CGFloat(height-margin) + isv.frame.height)
-
-        var y = 0
-
-        while Double(y) * gap < Double(isv.contentSize.height) {
-            var x = 0
-
-            while Double(x) * gap < Double(isv.contentSize.width) {
-                var n = 0
-                n += x > count ? x - (count + 1) : x
-                n += y > count ? y - (count + 1) : y
-
-                if n > count {
-                    n -= count+1
-                }
-                let point = C4Point(Double(x) * gap + margin, Double(y) * gap + margin)
-                createIndicator("\(n)", at: point)
-                x++
+            //instead of center position, I simply add 10 * 15 stars per layer
+            let starCount = layers.count * 15
+            //loop until there starCount stars in the layer
+            for _ in 0..<starCount {
+                //create an image for the star
+                let img = C4Image("sampleStar")
+                //allow it to scale proportionately
+                img.constrainsProportions = true
+                //scale the width of the image
+                img.width *= 0.1 * Double(layers.count+1)
+                //center it at a random point in the layer
+                img.center = C4Point(Double(layer.contentSize.width)*random01(),canvas.height*random01())
+                //add it to the layer
+                layer.add(img)
             }
-            y++
+        } while layers.count < 10
+
+        //grabs the topmost layer
+        if let top = layers.last {
+            //creates a variable context
+            var c = 0
+            //adds the WorkSpace as an observer of the top layer's contentOffset
+            top.addObserver(self, forKeyPath: "contentOffset", options: NSKeyValueObservingOptions.New, context: &c)
         }
     }
 
-    func createIndicator(text: String, at point: C4Point) {
-        let f = C4Font(name: "Helvetica", size: 30)
-        let ts = C4TextShape(text: text, font: f)
-        ts.center = point
-        isv.add(ts)
+    //overrides the default observe value method
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        //iterates through all the layers, stopping 1 before the top layer
+        for i in 0..<layers.count-1 {
+            //grabs the current layer
+            let layer = self.layers[i]
+            //creates a mod value based on the layer's position (layer 0 = 0.1, layer 1 = 0.2, ...)
+            let mod = 0.1 * CGFloat(i+1)
+            //grabs the x value of the top layer's content offset
+            if let x = layers.last?.contentOffset.x {
+                //sets the content offset of the current layer by multiplying x by mod
+                layer.contentOffset = CGPointMake(x*mod,0)
+            }
+        }
     }
 }
