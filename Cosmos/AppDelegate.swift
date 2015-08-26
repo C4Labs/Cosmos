@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Cosmos
 //
-//  Created by travis on 2015-07-05.
-//  Copyright (c) 2015 C4. All rights reserved.
+//  Created by travis on 2015-08-06.
+//  Copyright © 2015 C4. All rights reserved.
 //
 
 import UIKit
