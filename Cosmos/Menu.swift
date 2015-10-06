@@ -29,7 +29,6 @@ class Menu : C4CanvasController {
         self.createThinRingsOutAnimations()
         self.createThinRingsInAnimations()
 
-        animOut()
     }
 
     func animOut() {
@@ -37,18 +36,20 @@ class Menu : C4CanvasController {
             self.thickRingOut?.animate()
             self.thinRingsOut?.animate()
         }
-        delay(2.0) {
-            self.animIn()
+
+        delay(1.5) {
+            self.revealHideDividingLines(1.0)
         }
     }
 
     func animIn() {
+        delay(0.25) {
+            self.revealHideDividingLines(0.0)
+        }
+
         delay(1.0) {
             self.thickRingIn?.animate()
             self.thinRingsIn?.animate()
-        }
-        delay(2.0) {
-            self.animOut()
         }
     }
 
@@ -141,12 +142,11 @@ class Menu : C4CanvasController {
 
     func createMenuDividingLines() {
         for i in 0...11 {
-            let line = C4Line([C4Point(),C4Point(54,0)])
-            line.layer?.anchorPoint = CGPointMake(-1.88888,0)
-            line.center = self.canvas.center
-            let angle = M_PI / 6.0 * Double(i)
-            let rot = C4Transform.makeRotation(angle)
-            line.transform = rot
+            let line = C4Line((C4Point(),C4Point(54,0)))
+            line.anchorPoint = C4Point(-1.88888,0)
+            line.center = canvas.center
+            line.transform = C4Transform.makeRotation(M_PI / 6.0 * Double(i) , axis: C4Vector(x: 0, y: 0, z: -1))
+            line.lineCap = .Butt
             line.strokeColor = cosmosblue
             line.lineWidth = 1.0
             line.strokeEnd = 0.0
@@ -216,4 +216,20 @@ class Menu : C4CanvasController {
         thinRingsIn = C4ViewAnimationSequence(animations: animationArray)
     }
 
+    func revealHideDividingLines(target: Double) {
+        var indices = [0,1,2,3,4,5,6,7,8,9,10,11]
+
+        for i in 0...11 {
+            delay(0.05*Double(i)) {
+                let randomIndex = random(below: indices.count)
+                let index = indices[randomIndex]
+
+                C4ViewAnimation(duration: 0.1) {
+                    self.menuDividingLines[index].strokeEnd = target
+                    }.animate()
+
+                indices.removeAtIndex(randomIndex)
+            }
+        }
+    }
 }
