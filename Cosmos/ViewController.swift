@@ -17,6 +17,7 @@ class ViewController: C4CanvasController {
     let menu = Menu()
 
     override func setup() {
+        canvas.backgroundColor = C4Purple
         canvas.add(menu.canvas)
     }
 }
