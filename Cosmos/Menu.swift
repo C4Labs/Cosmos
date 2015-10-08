@@ -20,9 +20,12 @@ class Menu : C4CanvasController {
     var menuDividingLines = [C4Line]()
     
     var signProvider = AstrologicalSignProvider()
+    var currentSelection = 0
 
     override func setup() {
         canvas.backgroundColor = C4Purple
+        createMenuHighlight()
+        
         createThickRing()
         createThinRings()
         createDashedRings()
@@ -35,6 +38,7 @@ class Menu : C4CanvasController {
         createSignIcons()
         createSignIconAnimations()
         
+        createGesture()
         animOut()
     }
     
@@ -426,5 +430,65 @@ class Menu : C4CanvasController {
             }
         }
         signIconsIn?.curve = .EaseOut
+    }
+    
+    func createGesture() {
+        canvas.addLongPressGestureRecognizer { (location, state) -> () in
+            switch state {
+            case .Changed:
+                self.updateMenuHighlight(location)
+            case .Cancelled, .Ended, .Failed:
+                if self.menuHighlight?.hidden == false {
+                    self.menuHighlight?.hidden = true
+                }
+            default:
+                _ = ""
+            }
+        }
+    }
+
+    
+    func updateMenuHighlight(location: C4Point) {
+        let dist = distance(location, rhs: self.canvas.bounds.center)
+        if dist > 102 && dist < 156 {
+            menuHighlight?.hidden = false
+            let a = C4Vector(x:self.canvas.width / 2.0+1.0, y:self.canvas.height/2.0)
+            let b = C4Vector(x:self.canvas.width / 2.0, y:self.canvas.height/2.0)
+            let c = C4Vector(x:location.x, y:location.y)
+            
+            var ϴ = c.angleTo(a, basedOn: b)
+            if c.y < a.y {
+                ϴ = 2*M_PI - ϴ
+            }
+            
+            let index = Int(radToDeg(ϴ)) / 30
+            if currentSelection != index {
+                currentSelection = index
+                let rotation = C4Transform.makeRotation(degToRad(Double(currentSelection) * 30.0), axis: C4Vector(x: 0,y: 0,z: -1))
+                self.menuHighlight?.transform = rotation
+            }
+        } else {
+            menuHighlight?.hidden = true
+        }
+    }
+    
+    var menuHighlight : C4Shape?
+    func createMenuHighlight() {
+        let wedge = C4Wedge(center: canvas.center, radius: 156, start: M_PI/6.0, end: 0.0, clockwise: false)
+        wedge.fillColor = cosmosblue
+        wedge.lineWidth = 0.0
+        wedge.opacity = 0.8
+        wedge.interactionEnabled = false
+        wedge.anchorPoint = C4Point()
+        wedge.center = canvas.center
+        wedge.hidden = true
+        
+        let donut = C4Circle(center: wedge.center, radius: 156-54/2.0)
+        donut.fillColor = clear
+        donut.lineWidth = 54
+        wedge.mask = donut
+
+        menuHighlight = wedge
+        canvas.add(menuHighlight)
     }
 }
