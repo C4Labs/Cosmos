@@ -25,10 +25,8 @@ let cosmosblue = C4Color(red: 0.094, green: 0.271, blue: 1.0, alpha: 1.0)
 let cosmosbkgd = C4Color(red: 0.078, green: 0.118, blue: 0.306, alpha: 1.0)
 
 class ViewController: C4CanvasController {
-    let menu = Menu()
-
+    let infoPanel = InfoPanel()
     override func setup() {
-        canvas.backgroundColor = C4Purple
-        canvas.add(menu.canvas)
+        canvas.add(infoPanel.canvas)
     }
 }
