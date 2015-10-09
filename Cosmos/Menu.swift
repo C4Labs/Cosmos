@@ -1,14 +1,28 @@
+// Copyright © 2015 C4
 //
-//  Menu.swift
-//  Cosmos
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions: The above copyright
+// notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
-//  Created by travis on 2015-09-10.
-//  Copyright © 2015 C4. All rights reserved.
-//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
 
 import C4
+import UIKit
 
 class Menu : C4CanvasController {
+    //MARK: -
+    //MARK: Properties
     var thickRing = C4Circle()
     var thickRingFrames = [C4Rect]()
 
@@ -20,56 +34,70 @@ class Menu : C4CanvasController {
     var menuDividingLines = [C4Line]()
     
     var signProvider = AstrologicalSignProvider()
-    var currentSelection = 0
+    var currentSelection = -1
 
+    var menuIsVisible = false
+
+    var shouldRevert = false
+
+    var menuLabel : C4TextShape?
+    var shadow : C4Shape?
+
+    var infoButton : C4View?
+
+    var instructionLabel : UILabel?
+    var timer : C4Timer?
+
+    let tick = C4AudioPlayer("tick.mp3")
+    let hideMenuSound = C4AudioPlayer("menuClose.mp3")
+    let revealMenuSound = C4AudioPlayer("menuOpen.mp3")
+
+    //MARK: -
     override func setup() {
-        canvas.backgroundColor = C4Purple
-        createMenuHighlight()
-        
-        createThickRing()
-        createThinRings()
-        createDashedRings()
-        createMenuDividingLines()
+        adjustVolumes()
 
-        createThickRingAnimations()
-        createThinRingsOutAnimations()
-        createThinRingsInAnimations()
-        
+        canvas.backgroundColor = C4Purple
+        createShadow()
+        createShadowAnimations()
+
+        createMenuHighlight()
+
+        createRingsLines()
+        createRingsLinesAnimations()
+
         createSignIcons()
         createSignIconAnimations()
         
         createGesture()
-        animOut()
-    }
-    
-   func animOut() {
-        delay(1.0) {
-            self.thickRingOut?.animate()
-            self.thinRingsOut?.animate()
-            self.signIconsOut?.animate()
-        }
 
-        delay(1.5) {
-            self.revealHideDividingLines(1.0)
-            self.revealSignIcons?.animate()
+        createMenuLabel()
+
+        createInfoButton()
+        createInfoButtonAnimations()
+
+        createInstructionLabel()
+
+        timer = C4Timer(interval: 5.0, count: 1) {
+            self.showInstruction()
         }
+        timer?.start()
     }
 
-    func animIn() {
-        delay(0.25) {
-            self.revealHideDividingLines(0.0)
-            self.hideSignIcons?.animate()
-        }
+    //MARK: -
+    //MARK: Rings and Lines
 
-        delay(1.0) {
-            self.thickRingIn?.animate()
-            self.thinRingsIn?.animate()
-            self.signIconsIn?.animate()
-        }
+    func createRingsLines() {
+        createThickRing()
+        createThinRings()
+        createDashedRings()
+        createMenuDividingLines()
+    }
 
-        delay(2.5) {
-            self.animOut()
-        }
+    func createRingsLinesAnimations() {
+        createThickRingAnimations()
+        createThinRingsOutAnimations()
+        createThinRingsInAnimations()
+        createDashedRingAnimations()
     }
 
     func createThickRing() {
@@ -84,6 +112,23 @@ class Menu : C4CanvasController {
         self.thickRing.interactionEnabled = false
 
         canvas.add(thickRing)
+    }
+
+    var thickRingOut : C4ViewAnimation?
+    var thickRingIn : C4ViewAnimation?
+
+    func createThickRingAnimations() {
+        thickRingOut = C4ViewAnimation(duration: 0.5) {
+            self.thickRing.frame = self.thickRingFrames[1]
+            self.thickRing.updatePath()
+        }
+        thickRingOut?.curve = .EaseOut
+
+        thickRingIn = C4ViewAnimation(duration: 0.5) {
+            self.thickRing.frame = self.thickRingFrames[0]
+            self.thickRing.updatePath()
+        }
+        thickRingIn?.curve = .EaseOut
     }
 
     func createThinRings() {
@@ -109,6 +154,50 @@ class Menu : C4CanvasController {
         for ring in thinRings {
             canvas.add(ring)
         }
+    }
+
+    var thinRingsOut : C4ViewAnimationSequence?
+
+    func createThinRingsOutAnimations() {
+        var animationArray = [C4ViewAnimation]()
+        for i in 0..<self.thinRings.count-1 {
+            let anim = C4ViewAnimation(duration: 0.075 + Double(i) * 0.01) {
+                let circle = self.thinRings[i]
+
+                if (i > 0) {
+                    C4ViewAnimation(duration: 0.0375) {
+                        circle.opacity = 1.0
+                        }.animate()
+                }
+
+                circle.frame = self.thinRingFrames[i+1]
+                circle.updatePath()
+            }
+            anim.curve = .EaseOut
+            animationArray.append(anim)
+        }
+        thinRingsOut = C4ViewAnimationSequence(animations: animationArray)
+    }
+
+    var thinRingsIn : C4ViewAnimationSequence?
+
+    func createThinRingsInAnimations() {
+        var animationArray = [C4ViewAnimation]()
+        for i in 1...self.thinRings.count {
+            let anim = C4ViewAnimation(duration: 0.075 + Double(i) * 0.01, animations: { () -> Void in
+                let circle = self.thinRings[self.thinRings.count - i]
+                if self.thinRings.count - i > 0 {
+                    C4ViewAnimation(duration: 0.0375) {
+                        circle.opacity = 0.0
+                        }.animate()
+                }
+                circle.frame = self.thinRingFrames[self.thinRings.count - i]
+                circle.updatePath()
+            })
+            anim.curve = .EaseOut
+            animationArray.append(anim)
+        }
+        thinRingsIn = C4ViewAnimationSequence(animations: animationArray)
     }
 
     func createDashedRings() {
@@ -159,6 +248,23 @@ class Menu : C4CanvasController {
         dashedRings.append(longDashedRing)
     }
 
+    var revealDashedRings : C4ViewAnimation?
+    var hideDashedRings : C4ViewAnimation?
+
+    func createDashedRingAnimations() {
+        revealDashedRings = C4ViewAnimation(duration: 0.25) {
+            self.dashedRings[0].lineWidth = 4
+            self.dashedRings[1].lineWidth = 12
+        }
+        revealDashedRings?.curve = .EaseOut
+
+        hideDashedRings = C4ViewAnimation(duration: 0.25) {
+            self.dashedRings[0].lineWidth = 0
+            self.dashedRings[1].lineWidth = 0
+        }
+        hideDashedRings?.curve = .EaseOut
+    }
+
     func createMenuDividingLines() {
         for i in 0...11 {
             let line = C4Line((C4Point(),C4Point(54,0)))
@@ -174,67 +280,6 @@ class Menu : C4CanvasController {
         }
     }
 
-    var thickRingOut : C4ViewAnimation?
-    var thickRingIn : C4ViewAnimation?
-
-    func createThickRingAnimations() {
-        thickRingOut = C4ViewAnimation(duration: 0.5) {
-            self.thickRing.frame = self.thickRingFrames[1]
-            self.thickRing.updatePath()
-        }
-        thickRingOut?.curve = .EaseOut
-
-        thickRingIn = C4ViewAnimation(duration: 0.5) {
-            self.thickRing.frame = self.thickRingFrames[0]
-            self.thickRing.updatePath()
-        }
-        thickRingIn?.curve = .EaseOut
-    }
-
-    var thinRingsOut : C4ViewAnimationSequence?
-
-    func createThinRingsOutAnimations() {
-        var animationArray = [C4ViewAnimation]()
-        for i in 0..<self.thinRings.count-1 {
-            let anim = C4ViewAnimation(duration: 0.075 + Double(i) * 0.01) {
-                let circle = self.thinRings[i]
-
-                if (i > 0) {
-                    C4ViewAnimation(duration: 0.0375) {
-                        circle.opacity = 1.0
-                        }.animate()
-                }
-
-                circle.frame = self.thinRingFrames[i+1]
-                circle.updatePath()
-            }
-            anim.curve = .EaseOut
-            animationArray.append(anim)
-        }
-        thinRingsOut = C4ViewAnimationSequence(animations: animationArray)
-    }
-
-    var thinRingsIn : C4ViewAnimationSequence?
-
-    func createThinRingsInAnimations() {
-        var animationArray = [C4ViewAnimation]()
-        for i in 1...self.thinRings.count {
-            let anim = C4ViewAnimation(duration: 0.075 + Double(i) * 0.01, animations: { () -> Void in
-                let circle = self.thinRings[self.thinRings.count - i]
-                if self.thinRings.count - i > 0 {
-                    C4ViewAnimation(duration: 0.0375) {
-                        circle.opacity = 0.0
-                        }.animate()
-                }
-                circle.frame = self.thinRingFrames[self.thinRings.count - i]
-                circle.updatePath()
-            })
-            anim.curve = .EaseOut
-            animationArray.append(anim)
-        }
-        thinRingsIn = C4ViewAnimationSequence(animations: animationArray)
-    }
-
     func revealHideDividingLines(target: Double) {
         var indices = [0,1,2,3,4,5,6,7,8,9,10,11]
 
@@ -246,12 +291,259 @@ class Menu : C4CanvasController {
                 C4ViewAnimation(duration: 0.1) {
                     self.menuDividingLines[index].strokeEnd = target
                     }.animate()
-
+                
                 indices.removeAtIndex(randomIndex)
             }
         }
     }
-    
+
+    //MARK: -
+    //MARK: Audio
+    func adjustVolumes() {
+        hideMenuSound.volume = 0.66
+        revealMenuSound.volume = 0.66
+        tick.volume = 0.4
+    }
+
+    //MARK: -
+    //MARK: Instruction Label
+
+    func createInstructionLabel() {
+        let instruction = UILabel(frame: CGRect(x: 0,y: 0,width: 320, height: 44))
+        instruction.text = "press and hold to open menu\nthen drag to choose a sign"
+        instruction.font = UIFont(name: "Menlo-Regular", size: 13)
+        instruction.textAlignment = .Center
+        instruction.textColor = .whiteColor()
+        instruction.userInteractionEnabled = false
+        instruction.center = CGPointMake(view.center.x,view.center.y - 128)
+        instruction.numberOfLines = 2
+        instruction.alpha = 0.0
+        instructionLabel = instruction
+        canvas.add(instructionLabel)
+    }
+
+    func showInstruction() {
+        C4ViewAnimation(duration: 2.5) {
+            self.instructionLabel?.alpha = 1.0
+        }.animate()
+    }
+
+    func hideInstruction() {
+        C4ViewAnimation(duration: 0.25) {
+            self.instructionLabel?.alpha = 0.0
+        }.animate()
+    }
+
+    //MARK: -
+    //MARK: Info Button
+
+    func createInfoButton() {
+        let buttonView = C4View(frame: C4Rect(0,0,44,44))
+
+        let buttonImage = C4Image("info")
+        buttonImage.interactionEnabled = false
+        buttonImage.center = buttonView.center
+        buttonView.add(buttonImage)
+        buttonView.opacity = 0.0
+        buttonView.center = C4Point(canvas.center.x, canvas.center.y+190.0)
+        infoButton = buttonView
+        canvas.add(infoButton)
+    }
+
+    var revealInfoButton : C4ViewAnimation?
+    var hideInfoButton : C4ViewAnimation?
+
+    func createInfoButtonAnimations() {
+        revealInfoButton = C4ViewAnimation(duration:0.33) {
+            self.infoButton?.opacity = 1.0
+        }
+        revealInfoButton?.curve = .EaseOut
+
+        hideInfoButton = C4ViewAnimation(duration:0.33) {
+            self.infoButton?.opacity = 0.0
+        }
+        hideInfoButton?.curve = .EaseOut
+    }
+
+    //MARK: -
+    //MARK: Shadow
+
+    func createShadow() {
+        shadow = C4Rectangle(frame: C4Rect(UIScreen.mainScreen().bounds))
+        shadow?.fillColor = black
+        shadow?.lineWidth = 0
+        shadow?.opacity = 0.0
+        shadow?.center = C4Point(canvas.width/2,canvas.height/2)
+        canvas.add(shadow)
+    }
+
+    var revealShadow : C4ViewAnimation?
+    var hideShadow : C4ViewAnimation?
+
+    func createShadowAnimations() {
+        revealShadow = C4ViewAnimation(duration:0.25) {
+            self.shadow?.opacity = 0.44
+        }
+        revealShadow?.curve = .EaseOut
+
+        hideShadow = C4ViewAnimation(duration:0.25) {
+            self.shadow?.opacity = 0.0
+        }
+        hideShadow?.curve = .EaseOut
+    }
+
+    //MARK: -
+    //MARK: Menu Label
+
+    func createMenuLabel() {
+        let ts = C4TextShape(text: "Cosmos", font: C4Font(name: "Menlo-Regular", size: 13))
+        ts.center = canvas.center
+        ts.fillColor = white
+        ts.interactionEnabled = false
+        menuLabel = ts
+        canvas.add(menuLabel)
+        menuLabel?.hidden = true
+    }
+
+    func revealMenu() {
+        timer?.stop()
+
+        hideInstruction()
+
+        menuIsVisible = false
+        revealMenuSound.play()
+        revealShadow?.animate()
+        thickRingOut?.animate()
+        thinRingsOut?.animate()
+        signIconsOut?.animate()
+
+        delay(0.33) {
+            self.revealHideDividingLines(1.0)
+            self.revealSignIcons?.animate()
+        }
+        delay(0.66) {
+            self.revealDashedRings?.animate()
+            self.revealInfoButton?.animate()
+        }
+        delay(1.0) {
+            self.menuIsVisible = true
+            if self.shouldRevert {
+                self.hideMenu()
+                self.shouldRevert = false
+            }
+        }
+    }
+
+    func hideMenu() {
+        if instructionLabel?.alpha > 0.0 {
+            hideInstruction()
+        }
+
+        menuIsVisible = false
+
+        hideMenuSound.play()
+        hideDashedRings?.animate()
+        hideInfoButton?.animate()
+        self.revealHideDividingLines(0.0)
+
+        delay(0.16) {
+            self.hideSignIcons?.animate()
+        }
+        delay(0.57) {
+            self.thinRingsIn?.animate()
+        }
+        delay(0.66) {
+            self.signIconsIn?.animate()
+            self.thickRingIn?.animate()
+            self.hideShadow?.animate()
+            self.canvas.interactionEnabled = true
+        }
+    }
+
+    //MARK: -
+    //MARK: Gesture
+    func createGesture() {
+        canvas.addLongPressGestureRecognizer { (location, state) -> () in
+            switch state {
+            case .Began:
+                self.revealMenu()
+            case .Changed:
+                self.updateMenuHighlight(location)
+            case .Cancelled, .Ended, .Failed:
+                self.menuLabel?.hidden = true
+                self.currentSelection = -1
+                self.canvas.interactionEnabled = false
+                if self.menuHighlight?.hidden == false {
+                    self.menuHighlight?.hidden = true
+                }
+                if self.menuIsVisible {
+                    self.hideMenu()
+                } else {
+                    self.shouldRevert = true
+                }
+            default:
+                _ = ""
+            }
+        }
+    }
+
+    //MARK: -
+    //MARK: Highlight
+    func updateMenuHighlight(location: C4Point) {
+        let dist = distance(location, rhs: self.canvas.bounds.center)
+        if dist > 102 && dist < 156 {
+            menuHighlight?.hidden = false
+            let a = C4Vector(x:self.canvas.width / 2.0+1.0, y:self.canvas.height/2.0)
+            let b = C4Vector(x:self.canvas.width / 2.0, y:self.canvas.height/2.0)
+            let c = C4Vector(x:location.x, y:location.y)
+
+            var ϴ = c.angleTo(a, basedOn: b)
+            if c.y < a.y {
+                ϴ = 2*M_PI - ϴ
+            }
+
+            menuLabel?.hidden = false
+
+            let index = Int(radToDeg(ϴ)) / 30
+
+            if currentSelection != index {
+                tick.stop()
+                tick.play()
+                C4ShapeLayer.disableActions = true
+                menuLabel?.text = signProvider.order[index].capitalizedString
+                menuLabel?.center = canvas.bounds.center
+                C4ShapeLayer.disableActions = false
+                currentSelection = index
+                let rotation = C4Transform.makeRotation(degToRad(Double(currentSelection) * 30.0), axis: C4Vector(x: 0,y: 0,z: -1))
+                self.menuHighlight?.transform = rotation
+            }
+        } else {
+            menuHighlight?.hidden = true
+            menuLabel?.hidden = true
+        }
+    }
+
+    var menuHighlight : C4Shape?
+    func createMenuHighlight() {
+        let wedge = C4Wedge(center: canvas.center, radius: 156, start: M_PI/6.0, end: 0.0, clockwise: false)
+        wedge.fillColor = cosmosblue
+        wedge.lineWidth = 0.0
+        wedge.opacity = 0.8
+        wedge.interactionEnabled = false
+        wedge.anchorPoint = C4Point()
+        wedge.center = canvas.center
+        wedge.hidden = true
+
+        let donut = C4Circle(center: wedge.center, radius: 156-54/2.0)
+        donut.fillColor = clear
+        donut.lineWidth = 54
+        wedge.mask = donut
+
+        menuHighlight = wedge
+        canvas.add(menuHighlight)
+    }
+
+    //MARK: -
     //MARK: Sign Icons
     var signIcons = [String:C4Shape]()
     
@@ -430,65 +722,5 @@ class Menu : C4CanvasController {
             }
         }
         signIconsIn?.curve = .EaseOut
-    }
-    
-    func createGesture() {
-        canvas.addLongPressGestureRecognizer { (location, state) -> () in
-            switch state {
-            case .Changed:
-                self.updateMenuHighlight(location)
-            case .Cancelled, .Ended, .Failed:
-                if self.menuHighlight?.hidden == false {
-                    self.menuHighlight?.hidden = true
-                }
-            default:
-                _ = ""
-            }
-        }
-    }
-
-    
-    func updateMenuHighlight(location: C4Point) {
-        let dist = distance(location, rhs: self.canvas.bounds.center)
-        if dist > 102 && dist < 156 {
-            menuHighlight?.hidden = false
-            let a = C4Vector(x:self.canvas.width / 2.0+1.0, y:self.canvas.height/2.0)
-            let b = C4Vector(x:self.canvas.width / 2.0, y:self.canvas.height/2.0)
-            let c = C4Vector(x:location.x, y:location.y)
-            
-            var ϴ = c.angleTo(a, basedOn: b)
-            if c.y < a.y {
-                ϴ = 2*M_PI - ϴ
-            }
-            
-            let index = Int(radToDeg(ϴ)) / 30
-            if currentSelection != index {
-                currentSelection = index
-                let rotation = C4Transform.makeRotation(degToRad(Double(currentSelection) * 30.0), axis: C4Vector(x: 0,y: 0,z: -1))
-                self.menuHighlight?.transform = rotation
-            }
-        } else {
-            menuHighlight?.hidden = true
-        }
-    }
-    
-    var menuHighlight : C4Shape?
-    func createMenuHighlight() {
-        let wedge = C4Wedge(center: canvas.center, radius: 156, start: M_PI/6.0, end: 0.0, clockwise: false)
-        wedge.fillColor = cosmosblue
-        wedge.lineWidth = 0.0
-        wedge.opacity = 0.8
-        wedge.interactionEnabled = false
-        wedge.anchorPoint = C4Point()
-        wedge.center = canvas.center
-        wedge.hidden = true
-        
-        let donut = C4Circle(center: wedge.center, radius: 156-54/2.0)
-        donut.fillColor = clear
-        donut.lineWidth = 54
-        wedge.mask = donut
-
-        menuHighlight = wedge
-        canvas.add(menuHighlight)
     }
 }
