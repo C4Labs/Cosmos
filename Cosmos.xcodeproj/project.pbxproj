@@ -15,7 +15,12 @@
 		1F0556431B746EB900C05DBB /* InfiniteScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */; };
 		1F0556451B746F1200C05DBB /* C4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F05563C1B746DF500C05DBB /* C4.framework */; };
 		1F0556461B746F1200C05DBB /* C4.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1F05563C1B746DF500C05DBB /* C4.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1F56446C1BA2146C00B1955C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F56446B1BA2146C00B1955C /* Menu.swift */; settings = {ASSET_TAGS = (); }; };
 		1F7441961B8C4F710030B671 /* AstrologicalSignProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */; };
+		1FA4388B1BC64E84001E3AFD /* menuClose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1FA438881BC64E84001E3AFD /* menuClose.mp3 */; settings = {ASSET_TAGS = (); }; };
+		1FA4388C1BC64E84001E3AFD /* menuOpen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1FA438891BC64E84001E3AFD /* menuOpen.mp3 */; settings = {ASSET_TAGS = (); }; };
+		1FA4388D1BC64E84001E3AFD /* tick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1FA4388A1BC64E84001E3AFD /* tick.mp3 */; settings = {ASSET_TAGS = (); }; };
+		1FC56D651BC75FF8006155B3 /* InfoPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC56D641BC75FF8006155B3 /* InfoPanel.swift */; settings = {ASSET_TAGS = (); }; };
 		D9CFA8871B8E4C88009325D1 /* ParallaxBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,7 +79,12 @@
 		1F05562F1B746DD200C05DBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F0556351B746DF400C05DBB /* C4iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = C4iOS.xcodeproj; path = ../../C4iOS/C4iOS.xcodeproj; sourceTree = "<group>"; };
 		1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollView.swift; sourceTree = "<group>"; };
+		1F56446B1BA2146C00B1955C /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstrologicalSignProvider.swift; sourceTree = "<group>"; };
+		1FA438881BC64E84001E3AFD /* menuClose.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = menuClose.mp3; sourceTree = "<group>"; };
+		1FA438891BC64E84001E3AFD /* menuOpen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = menuOpen.mp3; sourceTree = "<group>"; };
+		1FA4388A1BC64E84001E3AFD /* tick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tick.mp3; sourceTree = "<group>"; };
+		1FC56D641BC75FF8006155B3 /* InfoPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPanel.swift; sourceTree = "<group>"; };
 		D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParallaxBackground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,10 +121,15 @@
 			children = (
 				1F0556231B746DD200C05DBB /* AppDelegate.swift */,
 				1F0556251B746DD200C05DBB /* ViewController.swift */,
+				1F56446B1BA2146C00B1955C /* Menu.swift */,
 				D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */,
 				1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */,
 				1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */,
+				1FC56D641BC75FF8006155B3 /* InfoPanel.swift */,
 				1F0556271B746DD200C05DBB /* Main.storyboard */,
+				1FA438881BC64E84001E3AFD /* menuClose.mp3 */,
+				1FA438891BC64E84001E3AFD /* menuOpen.mp3 */,
+				1FA4388A1BC64E84001E3AFD /* tick.mp3 */,
 				1F05562A1B746DD200C05DBB /* Assets.xcassets */,
 				1F05562C1B746DD200C05DBB /* LaunchScreen.storyboard */,
 				1F05562F1B746DD200C05DBB /* Info.plist */,
@@ -223,9 +238,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FA4388C1BC64E84001E3AFD /* menuOpen.mp3 in Resources */,
 				1F05562E1B746DD200C05DBB /* LaunchScreen.storyboard in Resources */,
 				1F05562B1B746DD200C05DBB /* Assets.xcassets in Resources */,
+				1FA4388B1BC64E84001E3AFD /* menuClose.mp3 in Resources */,
 				1F0556291B746DD200C05DBB /* Main.storyboard in Resources */,
+				1FA4388D1BC64E84001E3AFD /* tick.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,10 +254,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F56446C1BA2146C00B1955C /* Menu.swift in Sources */,
 				1F0556431B746EB900C05DBB /* InfiniteScrollView.swift in Sources */,
 				1F7441961B8C4F710030B671 /* AstrologicalSignProvider.swift in Sources */,
 				1F0556261B746DD200C05DBB /* ViewController.swift in Sources */,
 				D9CFA8871B8E4C88009325D1 /* ParallaxBackground.swift in Sources */,
+				1FC56D651BC75FF8006155B3 /* InfoPanel.swift in Sources */,
 				1F0556241B746DD200C05DBB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -361,6 +381,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = Cosmos/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = C4.Cosmos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -373,6 +394,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = Cosmos/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = C4.Cosmos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
