@@ -25,8 +25,35 @@ let cosmosblue = C4Color(red: 0.094, green: 0.271, blue: 1.0, alpha: 1.0)
 let cosmosbkgd = C4Color(red: 0.078, green: 0.118, blue: 0.306, alpha: 1.0)
 
 class ViewController: C4CanvasController {
-    let infoPanel = InfoPanel()
+    var background : ParallaxBackground?
+    var menu : Menu?
+    var info : InfoPanel?
+
+    var audio1 : C4AudioPlayer?
+    var audio2 : C4AudioPlayer?
+
     override func setup() {
-        canvas.add(infoPanel.canvas)
+        canvas.backgroundColor = cosmosbkgd
+
+        background = ParallaxBackground()
+        canvas.add(background?.canvas)
+
+        menu = Menu()
+        menu?.canvas.center = canvas.center
+        canvas.add(menu?.canvas)
+
+        info = InfoPanel()
+        canvas.add(info?.canvas)
+
+        menu?.selectionAction = background?.goto
+        menu?.infoAction = info?.show
+
+        audio1 = C4AudioPlayer("audio1.mp3")
+        audio1?.loops = true
+        audio1?.play()
+
+        audio2 = C4AudioPlayer("audio2.mp3")
+        audio2?.loops = true
+        audio2?.play()
     }
 }

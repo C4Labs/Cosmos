@@ -116,7 +116,7 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
     //MARK: Vignette
     func createVignette() -> InfiniteScrollView {
         let sv = InfiniteScrollView(frame: view.frame)
-        let img = C4Image("1Vignette")
+        let img = C4Image("1vignette")
         img.frame = canvas.frame
         sv.add(img)
         return sv
@@ -152,8 +152,6 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
         sv.clipsToBounds = false
         //sets the contents size to signCount * single size, adds canvas.width to account for overlap to hide snap
         sv.contentSize = CGSizeMake(sv.frame.size.width * (1.0 + signCount * CGFloat(gapBetweenSigns)), 1.0)
-
-        print(sv.contentSize)
 
         var signOrder = signProvider.order
         signOrder.append(signOrder[0])
@@ -386,5 +384,21 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
                 line.strokeEnd = 0.0
             }
         }.animate()
+    }
+
+    //MARK: Go To
+    func goto(selection: Int) {
+        let target = canvas.width * Double(gapBetweenSigns) * Double(selection)
+
+        let anim = C4ViewAnimation(duration: 3.0) { () -> Void in
+            self.scrollviews.last?.contentOffset = CGPoint(x: CGFloat(target),y: 0)
+        }
+        anim.curve = .EaseOut
+        anim.animate()
+
+        delay(anim.duration) {
+            self.currentSignLines = self.signLines[selection]
+            self.revealCurrentSignLines()
+        }
     }
 }

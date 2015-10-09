@@ -20,6 +20,9 @@
 import C4
 import UIKit
 
+typealias SelectionAction = (selection: Int) -> Void
+typealias InfoAction = () -> Void
+
 class Menu : C4CanvasController {
     //MARK: -
     //MARK: Properties
@@ -52,11 +55,16 @@ class Menu : C4CanvasController {
     let hideMenuSound = C4AudioPlayer("menuClose.mp3")
     let revealMenuSound = C4AudioPlayer("menuOpen.mp3")
 
+    var selectionAction : SelectionAction?
+    var infoAction : InfoAction?
+
     //MARK: -
     override func setup() {
         adjustVolumes()
 
-        canvas.backgroundColor = C4Purple
+        canvas.backgroundColor = clear
+        canvas.frame = C4Rect(0,0,80,80)
+        
         createShadow()
         createShadowAnimations()
 
@@ -470,9 +478,13 @@ class Menu : C4CanvasController {
             case .Changed:
                 self.updateMenuHighlight(location)
             case .Cancelled, .Ended, .Failed:
+                if let sa = self.selectionAction where self.currentSelection >= 0 {
+                    sa(selection: self.currentSelection)
+                }
                 self.menuLabel?.hidden = true
                 self.currentSelection = -1
                 self.canvas.interactionEnabled = false
+
                 if self.menuHighlight?.hidden == false {
                     self.menuHighlight?.hidden = true
                 }
@@ -480,6 +492,14 @@ class Menu : C4CanvasController {
                     self.hideMenu()
                 } else {
                     self.shouldRevert = true
+                }
+                if let ib = self.infoButton {
+                    if ib.hitTest(location, from: self.canvas),
+                        let ia = self.infoAction {
+                            delay(0.75) {
+                                ia()
+                            }
+                    }
                 }
             default:
                 _ = ""
@@ -518,8 +538,18 @@ class Menu : C4CanvasController {
                 self.menuHighlight?.transform = rotation
             }
         } else {
-            menuHighlight?.hidden = true
-            menuLabel?.hidden = true
+            self.menuHighlight?.hidden = true
+            self.menuLabel?.hidden = true
+            self.currentSelection = -1
+            if let l = infoButton  {
+                if l.hitTest(location, from:canvas) {
+                    self.menuLabel?.hidden = false
+                    C4ShapeLayer.disableActions = true
+                    self.menuLabel?.text = "Info"
+                    self.menuLabel?.center = canvas.bounds.center
+                    C4ShapeLayer.disableActions = false
+                }
+            }
         }
     }
 

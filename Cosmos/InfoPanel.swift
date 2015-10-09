@@ -29,10 +29,12 @@ public class InfoPanel : C4CanvasController {
         canvas.backgroundColor = C4Color(red: 0, green: 0, blue: 0, alpha: 0.33)
         canvas.border.width = 4.0
         canvas.border.color = C4Color(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.2)
+        canvas.opacity = 0.0
         createLogo() 
         createLabel()
         createLink()
         linkGesture()
+        hideGesture()
     }
 
     func createLogo() {
@@ -90,5 +92,23 @@ public class InfoPanel : C4CanvasController {
             }
         }
         press?.minimumPressDuration = 0.0
+    }
+
+    func hideGesture() {
+        canvas.addTapGestureRecognizer { location, state in
+            self.hide()
+        }
+    }
+
+    func hide() {
+        C4ViewAnimation(duration: 0.25) { () -> Void in
+            self.canvas.opacity = 0.0
+        }.animate()
+    }
+
+    func show() {
+        C4ViewAnimation(duration: 0.25) { () -> Void in
+            self.canvas.opacity = 1.0
+        }.animate()
     }
 }
