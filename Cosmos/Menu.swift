@@ -26,8 +26,8 @@ typealias InfoAction = () -> Void
 class Menu : C4CanvasController {
     //MARK: -
     //MARK: Properties
-    var thickRing = C4Circle()
-    var thickRingFrames = [C4Rect]()
+    var thickRing : C4Circle?
+    lazy var thickRingFrames = [C4Rect]()
 
     var thinRings = [C4Circle]()
     var thinRingFrames = [C4Rect]()
@@ -51,9 +51,9 @@ class Menu : C4CanvasController {
     var instructionLabel : UILabel?
     var timer : C4Timer?
 
-    let tick = C4AudioPlayer("tick.mp3")
-    let hideMenuSound = C4AudioPlayer("menuClose.mp3")
-    let revealMenuSound = C4AudioPlayer("menuOpen.mp3")
+    let tick = C4AudioPlayer("tick.mp3")!
+    let hideMenuSound = C4AudioPlayer("menuClose.mp3")!
+    let revealMenuSound = C4AudioPlayer("menuOpen.mp3")!
 
     var selectionAction : SelectionAction?
     var infoAction : InfoAction?
@@ -113,11 +113,11 @@ class Menu : C4CanvasController {
         let outer = C4Circle(center: canvas.center, radius: 225)
         thickRingFrames = [inner.frame,outer.frame]
 
+        inner.fillColor = clear
+        inner.lineWidth = 3
+        inner.strokeColor = cosmosblue
+        inner.interactionEnabled = false
         thickRing = inner
-        self.thickRing.fillColor = clear
-        self.thickRing.lineWidth = 3
-        self.thickRing.strokeColor = cosmosblue
-        self.thickRing.interactionEnabled = false
 
         canvas.add(thickRing)
     }
@@ -127,14 +127,12 @@ class Menu : C4CanvasController {
 
     func createThickRingAnimations() {
         thickRingOut = C4ViewAnimation(duration: 0.5) {
-            self.thickRing.frame = self.thickRingFrames[1]
-            self.thickRing.updatePath()
+            self.thickRing?.frame = self.thickRingFrames[1]
         }
         thickRingOut?.curve = .EaseOut
 
         thickRingIn = C4ViewAnimation(duration: 0.5) {
-            self.thickRing.frame = self.thickRingFrames[0]
-            self.thickRing.updatePath()
+            self.thickRing?.frame = self.thickRingFrames[0]
         }
         thickRingIn?.curve = .EaseOut
     }
@@ -179,7 +177,6 @@ class Menu : C4CanvasController {
                 }
 
                 circle.frame = self.thinRingFrames[i+1]
-                circle.updatePath()
             }
             anim.curve = .EaseOut
             animationArray.append(anim)
@@ -200,7 +197,6 @@ class Menu : C4CanvasController {
                         }.animate()
                 }
                 circle.frame = self.thinRingFrames[self.thinRings.count - i]
-                circle.updatePath()
             })
             anim.curve = .EaseOut
             animationArray.append(anim)
@@ -348,7 +344,7 @@ class Menu : C4CanvasController {
     func createInfoButton() {
         let buttonView = C4View(frame: C4Rect(0,0,44,44))
 
-        let buttonImage = C4Image("info")
+        let buttonImage = C4Image("info")!
         buttonImage.interactionEnabled = false
         buttonImage.center = buttonView.center
         buttonView.add(buttonImage)
@@ -404,7 +400,8 @@ class Menu : C4CanvasController {
     //MARK: Menu Label
 
     func createMenuLabel() {
-        let ts = C4TextShape(text: "Cosmos", font: C4Font(name: "Menlo-Regular", size: 13))
+        let f = C4Font(name: "Menlo-Regular", size: 13)!
+        let ts = C4TextShape(text: "Cosmos", font: f)!
         ts.center = canvas.center
         ts.fillColor = white
         ts.interactionEnabled = false

@@ -38,7 +38,7 @@ public class InfoPanel : C4CanvasController {
     }
 
     func createLogo() {
-        let img = C4Image("logo")
+        let img = C4Image("logo")!
         img.center = C4Point(canvas.center.x,canvas.height/6.0)
         logo = img
         canvas.add(logo)
@@ -61,7 +61,8 @@ public class InfoPanel : C4CanvasController {
     }
 
     func createLink() {
-        let text = C4TextShape(text:"www.c4ios.com", font: C4Font(name: "Menlo-Regular", size: 24))
+        let f = C4Font(name: "Menlo-Regular", size: 24)!
+        let text = C4TextShape(text:"www.c4ios.com", font: f)!
         text.fillColor = white
         text.center = C4Point(canvas.center.x,canvas.height * 5.0/6.0)
 

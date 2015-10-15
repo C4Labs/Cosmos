@@ -92,7 +92,7 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
                 //create a point
                 var pt = C4Point(x, y)
                 //create an image using the specified name
-                let img = C4Image(imageName)
+                let img = C4Image(imageName)!
                 //center the image to the random point
                 img.center = pt
                 //add the image to the canvas
@@ -102,7 +102,7 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
                     //shift x by the entire content size
                     pt.x += Double(signCount * singleSignContentSize)
                     //create a new image
-                    let img = C4Image(imageName)
+                    let img = C4Image(imageName)!
                     //center it
                     img.center = pt
                     //add it
@@ -116,7 +116,7 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
     //MARK: Vignette
     func createVignette() -> InfiniteScrollView {
         let sv = InfiniteScrollView(frame: view.frame)
-        let img = C4Image("1vignette")
+        let img = C4Image("1vignette")!
         img.frame = canvas.frame
         sv.add(img)
         return sv
@@ -159,9 +159,9 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
         for i in 0..<signOrder.count {
             let dx = Double(i) * canvas.width * Double(speeds[6]) * Double(gapBetweenSigns)
             let t = C4Transform.makeTranslation(C4Vector(x: canvas.center.x + dx, y: canvas.center.y, z: 0))
-            if let sign = signProvider.get(signOrder[i]) {
+            if var sign = signProvider.get(signOrder[i]) {
                 for point in sign.small {
-                    let img = C4Image("6smallStar")
+                    let img = C4Image("6smallStar")!
                     var p = point
                     p.transform(t)
                     img.center = p
@@ -184,9 +184,9 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
         for i in 0..<signOrder.count {
             let dx = Double(i) * canvas.width * Double(gapBetweenSigns)
             let t = C4Transform.makeTranslation(C4Vector(x: canvas.center.x + dx, y: canvas.center.y, z: 0))
-            if let sign = signProvider.get(signOrder[i]) {
+            if var sign = signProvider.get(signOrder[i]) {
                 for point in sign.big {
-                    let img = C4Image("7bigStar")
+                    let img = C4Image("7bigStar")!
                     var p = point
                     p.transform(t)
                     img.center = p
@@ -212,7 +212,7 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
         for i in 0..<signOrder.count {
             let dx = Double(i) * canvas.width * Double(gapBetweenSigns)
             let t = C4Transform.makeTranslation(C4Vector(x: canvas.center.x + dx, y: canvas.center.y, z: 0))
-            if let sign = signProvider.get(signOrder[i]) {
+            if var sign = signProvider.get(signOrder[i]) {
                 let connections = sign.lines
 
                 var currentLineSet = [C4Line]()
@@ -276,7 +276,7 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
         let y = self.canvas.height - 86.0
         let dx = canvas.width*Double(gapBetweenSigns)
         let offset = self.canvas.width / 2.0
-        let font = C4Font(name:"Menlo-Regular", size: 13.0)
+        let font = C4Font(name:"Menlo-Regular", size: 13.0)!
 
         for i in 0..<signNames.count {
             let name = signNames[i]
@@ -319,7 +319,7 @@ class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
     }
 
     func createSmallSignTitle(name: String, font: C4Font) -> C4TextShape {
-        let text = C4TextShape(text:name, font:font)
+        let text = C4TextShape(text:name, font:font)!
         text.fillColor = white
         text.lineWidth = 0
         text.opacity = 0.33

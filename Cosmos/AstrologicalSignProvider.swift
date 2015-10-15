@@ -22,10 +22,10 @@ import C4
 typealias AstrologicalSignFunction = () -> AstrologicalSign
 
 struct AstrologicalSign {
-    var shape = C4Shape()
-    var big = [C4Point]()
-    var small = [C4Point]()
-    var lines = [[C4Point]]()
+    var shape : C4Shape!
+    lazy var big = [C4Point]()
+    lazy var small = [C4Point]()
+    lazy var lines = [[C4Point]]()
 }
 
 class AstrologicalSignProvider : NSObject {
