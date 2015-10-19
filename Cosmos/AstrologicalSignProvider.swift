@@ -29,6 +29,8 @@ struct AstrologicalSign {
 }
 
 class AstrologicalSignProvider : NSObject {
+    static let sharedInstance = AstrologicalSignProvider()
+    
     let order = ["pisces", "aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius"]
     //FIXME: will need to explain "why" mappings
     internal var mappings = [String : AstrologicalSignFunction]()
