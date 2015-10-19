@@ -26,7 +26,6 @@ typealias InfoAction = () -> Void
 class Menu : C4CanvasController {
     //MARK: -
     //MARK: Properties
-    var signProvider : AstrologicalSignProvider!
 
     var menuIsVisible = false
     var shouldRevert = false
@@ -44,11 +43,8 @@ class Menu : C4CanvasController {
     
     //MARK: -
     override func setup() {
-        signProvider = AstrologicalSignProvider()
-        
         canvas.backgroundColor = clear
         canvas.frame = C4Rect(0,0,80,80)
-        
 
         menuRings = MenuRings()
         menuSelector = MenuSelector()

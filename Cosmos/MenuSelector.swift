@@ -10,7 +10,6 @@ import C4
 import UIKit
 
 public class MenuSelector : C4CanvasController {
-    var signProvider : AstrologicalSignProvider!
     var currentSelection = -1
     var menuLabel : C4TextShape!
 
@@ -21,7 +20,6 @@ public class MenuSelector : C4CanvasController {
     let revealMenuSound = C4AudioPlayer("menuOpen.mp3")!
 
     public override func setup() {
-        signProvider = AstrologicalSignProvider()
         canvas.frame = C4Rect(0,0,80,80)
         canvas.backgroundColor = clear
         createMenuHighlight()
@@ -76,7 +74,7 @@ public class MenuSelector : C4CanvasController {
                 tick.stop()
                 tick.play()
                 C4ShapeLayer.disableActions = true
-                menuLabel?.text = signProvider.order[index].capitalizedString
+                menuLabel?.text = AstrologicalSignProvider.sharedInstance.order[index].capitalizedString
                 menuLabel?.center = canvas.bounds.center
                 C4ShapeLayer.disableActions = false
                 currentSelection = index
