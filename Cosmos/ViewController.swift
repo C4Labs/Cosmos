@@ -42,11 +42,11 @@ class ViewController: C4CanvasController {
         menu?.canvas.center = canvas.center
         canvas.add(menu?.canvas)
 
-        info = InfoPanel()
-        canvas.add(info?.canvas)
-
         menu?.selectionAction = background?.goto
         menu?.infoAction = info?.show
+
+        info = InfoPanel()
+        canvas.add(info?.canvas)
 
         audio1 = C4AudioPlayer("audio1.mp3")
         audio1?.loops = true

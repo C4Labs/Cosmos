@@ -28,6 +28,10 @@
 		D9F39EF51BD5799D00728B4B /* MenuIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EF41BD5799D00728B4B /* MenuIcons.swift */; settings = {ASSET_TAGS = (); }; };
 		D9F39EF71BD57B0200728B4B /* MenuSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EF61BD57B0200728B4B /* MenuSelector.swift */; settings = {ASSET_TAGS = (); }; };
 		D9F39EFC1BD5802E00728B4B /* MenuShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EFB1BD5802E00728B4B /* MenuShadow.swift */; settings = {ASSET_TAGS = (); }; };
+		D9F39EFE1BD588A800728B4B /* SignLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EFD1BD588A800728B4B /* SignLines.swift */; settings = {ASSET_TAGS = (); }; };
+		D9F39F001BD58CF800728B4B /* StarsBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EFF1BD58CF800728B4B /* StarsBackground.swift */; settings = {ASSET_TAGS = (); }; };
+		D9F39F021BD5901800728B4B /* StarsSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39F011BD5901800728B4B /* StarsSmall.swift */; settings = {ASSET_TAGS = (); }; };
+		D9F39F041BD591FF00728B4B /* StarsBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39F031BD591FF00728B4B /* StarsBig.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +102,10 @@
 		D9F39EF41BD5799D00728B4B /* MenuIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuIcons.swift; sourceTree = "<group>"; };
 		D9F39EF61BD57B0200728B4B /* MenuSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSelector.swift; sourceTree = "<group>"; };
 		D9F39EFB1BD5802E00728B4B /* MenuShadow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuShadow.swift; sourceTree = "<group>"; };
+		D9F39EFD1BD588A800728B4B /* SignLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignLines.swift; sourceTree = "<group>"; };
+		D9F39EFF1BD58CF800728B4B /* StarsBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarsBackground.swift; sourceTree = "<group>"; };
+		D9F39F011BD5901800728B4B /* StarsSmall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarsSmall.swift; sourceTree = "<group>"; };
+		D9F39F031BD591FF00728B4B /* StarsBig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarsBig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,7 +142,7 @@
 				1F0556231B746DD200C05DBB /* AppDelegate.swift */,
 				1F0556251B746DD200C05DBB /* ViewController.swift */,
 				D9F39EFA1BD57F7E00728B4B /* Menu */,
-				D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */,
+				D9F39F051BD599BF00728B4B /* Background */,
 				1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */,
 				1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */,
 				1FC56D641BC75FF8006155B3 /* InfoPanel.swift */,
@@ -172,6 +180,18 @@
 				D9F39EFB1BD5802E00728B4B /* MenuShadow.swift */,
 			);
 			name = Menu;
+			sourceTree = "<group>";
+		};
+		D9F39F051BD599BF00728B4B /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */,
+				D9F39EFD1BD588A800728B4B /* SignLines.swift */,
+				D9F39EFF1BD58CF800728B4B /* StarsBackground.swift */,
+				D9F39F011BD5901800728B4B /* StarsSmall.swift */,
+				D9F39F031BD591FF00728B4B /* StarsBig.swift */,
+			);
+			name = Background;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,8 +303,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F56446C1BA2146C00B1955C /* Menu.swift in Sources */,
+				D9F39F041BD591FF00728B4B /* StarsBig.swift in Sources */,
 				D9F39EF71BD57B0200728B4B /* MenuSelector.swift in Sources */,
 				1F0556431B746EB900C05DBB /* InfiniteScrollView.swift in Sources */,
+				D9F39F001BD58CF800728B4B /* StarsBackground.swift in Sources */,
 				D9F39EF11BD5751600728B4B /* MenuRings.swift in Sources */,
 				1F7441961B8C4F710030B671 /* AstrologicalSignProvider.swift in Sources */,
 				D9F39EF51BD5799D00728B4B /* MenuIcons.swift in Sources */,
@@ -292,6 +314,8 @@
 				D9CFA8871B8E4C88009325D1 /* ParallaxBackground.swift in Sources */,
 				D9F39EFC1BD5802E00728B4B /* MenuShadow.swift in Sources */,
 				1FC56D651BC75FF8006155B3 /* InfoPanel.swift in Sources */,
+				D9F39F021BD5901800728B4B /* StarsSmall.swift in Sources */,
+				D9F39EFE1BD588A800728B4B /* SignLines.swift in Sources */,
 				1F0556241B746DD200C05DBB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

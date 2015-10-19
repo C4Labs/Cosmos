@@ -43,6 +43,7 @@ class Menu : C4CanvasController {
     
     //MARK: -
     override func setup() {
+        
         canvas.backgroundColor = clear
         canvas.frame = C4Rect(0,0,80,80)
 
@@ -58,7 +59,6 @@ class Menu : C4CanvasController {
         canvas.add(menuIcons.canvas)
         
         createGesture()
-
         createInstructionLabel()
 
         timer = C4Timer(interval: 5.0, count: 1) {

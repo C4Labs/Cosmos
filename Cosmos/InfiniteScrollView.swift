@@ -20,8 +20,8 @@
 import UIKit
 import Foundation
 
-class InfiniteScrollView: UIScrollView {
-    override func layoutSubviews() {
+public class InfiniteScrollView: UIScrollView {
+    public override func layoutSubviews() {
         super.layoutSubviews()
 
         //grab the current content offset (top-left corner)
