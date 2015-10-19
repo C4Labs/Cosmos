@@ -26,30 +26,30 @@ typealias InfoAction = () -> Void
 class Menu : C4CanvasController {
     //MARK: -
     //MARK: Properties
-    var thickRing : C4Circle?
+    var thickRing : C4Circle!
     lazy var thickRingFrames = [C4Rect]()
 
-    var thinRings = [C4Circle]()
-    var thinRingFrames = [C4Rect]()
+    var thinRings : [C4Circle]!
+    var thinRingFrames : [C4Rect]!
 
-    var dashedRings = [C4Circle]()
+    var dashedRings : [C4Circle]!
 
-    var menuDividingLines = [C4Line]()
+    var menuDividingLines : [C4Line]!
     
-    var signProvider = AstrologicalSignProvider()
+    var signProvider : AstrologicalSignProvider!
     var currentSelection = -1
 
     var menuIsVisible = false
 
     var shouldRevert = false
 
-    var menuLabel : C4TextShape?
-    var shadow : C4Shape?
+    var menuLabel : C4TextShape!
+    var shadow : C4Shape!
 
-    var infoButton : C4View?
+    var infoButton : C4View!
 
-    var instructionLabel : UILabel?
-    var timer : C4Timer?
+    var instructionLabel : UILabel!
+    var timer : C4Timer!
 
     let tick = C4AudioPlayer("tick.mp3")!
     let hideMenuSound = C4AudioPlayer("menuClose.mp3")!
