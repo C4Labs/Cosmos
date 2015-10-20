@@ -141,18 +141,14 @@
 			children = (
 				1F0556231B746DD200C05DBB /* AppDelegate.swift */,
 				1F0556251B746DD200C05DBB /* WorkSpace.swift */,
-				D9F39EFA1BD57F7E00728B4B /* Menu */,
-				D9F39F051BD599BF00728B4B /* Background */,
 				1F7441951B8C4F710030B671 /* AstrologicalSignProvider.swift */,
 				1F0556421B746EB900C05DBB /* InfiniteScrollView.swift */,
 				1FC56D641BC75FF8006155B3 /* InfoPanel.swift */,
-				1F0556271B746DD200C05DBB /* Main.storyboard */,
-				1FA438881BC64E84001E3AFD /* menuClose.mp3 */,
-				1FA438891BC64E84001E3AFD /* menuOpen.mp3 */,
-				1FA4388A1BC64E84001E3AFD /* tick.mp3 */,
-				1FC56D701BC798CD006155B3 /* audio1.mp3 */,
-				1FC56D711BC798CD006155B3 /* audio2.mp3 */,
+				D9F39EFA1BD57F7E00728B4B /* Menu */,
+				D9F39F051BD599BF00728B4B /* Background */,
+				D973488F1BD5BE2600BAC7D4 /* Audio */,
 				1F05562A1B746DD200C05DBB /* Assets.xcassets */,
+				1F0556271B746DD200C05DBB /* Main.storyboard */,
 				1F05562C1B746DD200C05DBB /* LaunchScreen.storyboard */,
 				1F05562F1B746DD200C05DBB /* Info.plist */,
 				1F0556351B746DF400C05DBB /* C4iOS.xcodeproj */,
@@ -168,6 +164,18 @@
 				1F0556401B746DF500C05DBB /* C4App.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D973488F1BD5BE2600BAC7D4 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				1FA438881BC64E84001E3AFD /* menuClose.mp3 */,
+				1FA438891BC64E84001E3AFD /* menuOpen.mp3 */,
+				1FA4388A1BC64E84001E3AFD /* tick.mp3 */,
+				1FC56D701BC798CD006155B3 /* audio1.mp3 */,
+				1FC56D711BC798CD006155B3 /* audio2.mp3 */,
+			);
+			name = Audio;
 			sourceTree = "<group>";
 		};
 		D9F39EFA1BD57F7E00728B4B /* Menu */ = {
