@@ -21,51 +21,58 @@ import C4
 import UIKit
 
 public class InfoPanel : C4CanvasController {
-    var logo : C4Image?
-    var text : UILabel?
     var link : C4TextShape?
 
     public override func setup() {
+        //makes the background slightly dark
         canvas.backgroundColor = C4Color(red: 0, green: 0, blue: 0, alpha: 0.33)
-        canvas.border.width = 4.0
-        canvas.border.color = C4Color(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.2)
+        //hides the info panel
         canvas.opacity = 0.0
-        createLogo() 
+        //creates the logo
+        createLogo()
+        //creates the label
         createLabel()
+        //creates the link
         createLink()
+        //creates a gesture to open the C4 site
         linkGesture()
+        //creates a gesture to hide the panel
         hideGesture()
     }
 
     func createLogo() {
-        let img = C4Image("logo")!
-        img.center = C4Point(canvas.center.x,canvas.height/6.0)
-        logo = img
+        //creates an image and positions it before adding it to the screen
+        let logo = C4Image("logo")!
+        logo.center = C4Point(canvas.center.x,canvas.height/6.0)
         canvas.add(logo)
     }
 
     func createLabel() {
+        //creates the message to be displayed in the label
         let message = "COSMOS is a lovingly\nbuilt app created\nby the C4 team.\n\n\nWe hope you enjoy\ncruising the COSMOS.\n\n\nYou can learn how\nto build this app\n on our site at:"
 
-        let label = UILabel()
-        label.font = UIFont(name: "Menlo-Regular", size: 18)
-        label.numberOfLines = 40
-        label.text = message
-        label.textColor = .whiteColor()
-        label.textAlignment = .Center
-        label.sizeToFit()
-        label.center = CGPoint(canvas.center)
+        //creates a label and styles / positions it before adding it to the screen
+        //uses a UILabel because we want to have multiple lines of text
+        let text = UILabel()
+        text.font = UIFont(name: "Menlo-Regular", size: 18)
+        text.numberOfLines = 40
+        text.text = message
+        text.textColor = .whiteColor()
+        text.textAlignment = .Center
+        text.sizeToFit()
+        text.center = CGPoint(canvas.center)
 
-        text = label
         canvas.add(text)
     }
 
     func createLink() {
+        //creates a textshape
         let f = C4Font(name: "Menlo-Regular", size: 24)!
         let text = C4TextShape(text:"www.c4ios.com", font: f)!
         text.fillColor = white
         text.center = C4Point(canvas.center.x,canvas.height * 5.0/6.0)
 
+        //creates the pink line under the text shape
         let a = C4Point(text.origin.x,text.frame.max.y+8)
         let b = C4Point(a.x + text.width + 1, a.y)
 
@@ -73,22 +80,30 @@ public class InfoPanel : C4CanvasController {
         line.lineWidth = 2.0
         line.strokeColor = C4Pink
 
+        //associates the link variable with the text
         link = text
+        
+        //adds both elements to the screen
         canvas.add(link)
         canvas.add(line)
     }
 
     func linkGesture() {
+        //creates a press gesture
         let press = link?.addLongPressGestureRecognizer { location, state in
             switch state {
             case .Began, .Changed:
+                //if the press starts, or the user is dragging, make sure the text color is pink
                 self.link?.fillColor = C4Pink
             case .Ended:
+                //if the user chooses to release the gesture, test to see if their location is over the link shape
                 if let l = self.link where l.hitTest(location) {
-                    UIApplication.sharedApplication().openURL(NSURL(string:"http://www.c4ios.com")!)
+                    //if so, open the link in safari
+                    UIApplication.sharedApplication().openURL(NSURL(string:"http://www.c4ios.com/cosmos/")!)
                 }
                 fallthrough
             default:
+                //set the text color back to white
                 self.link?.fillColor = white
             }
         }
