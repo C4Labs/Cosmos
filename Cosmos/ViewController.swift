@@ -20,40 +20,42 @@
 import UIKit
 import C4
 
+//three colors we'll use throughout the app, so we make them project-level variables
 let cosmosprpl = C4Color(red:0.565, green: 0.075, blue: 0.996, alpha: 1.0)
 let cosmosblue = C4Color(red: 0.094, green: 0.271, blue: 1.0, alpha: 1.0)
 let cosmosbkgd = C4Color(red: 0.078, green: 0.118, blue: 0.306, alpha: 1.0)
 
 class ViewController: C4CanvasController {
-    var background : ParallaxBackground?
-    var menu : Menu?
-    var info : InfoPanel?
-
-    var audio1 : C4AudioPlayer?
-    var audio2 : C4AudioPlayer?
-
     override func setup() {
+        //set the background color of the main app
         canvas.backgroundColor = cosmosbkgd
 
-        background = ParallaxBackground()
-        canvas.add(background?.canvas)
+        //create the parallax background
+        let background = Stars()
+        canvas.add(background.canvas)
 
-        menu = Menu()
-        menu?.canvas.center = canvas.center
-        canvas.add(menu?.canvas)
+        //create the menu and center it
+        let menu = Menu()
+        menu.canvas.center = canvas.center
+        canvas.add(menu.canvas)
 
-        menu?.selectionAction = background?.goto
-        menu?.infoAction = info?.show
+        //create the information panel
+        let info = InfoPanel()
+        canvas.add(info.canvas)
 
-        info = InfoPanel()
-        canvas.add(info?.canvas)
+        //assign the selection action for the menu
+        menu.selectionAction = background.goto
+        //assign the info action for the menu
+        menu.infoAction = info.show
 
-        audio1 = C4AudioPlayer("audio1.mp3")
-        audio1?.loops = true
-        audio1?.play()
+        //create, loop and play the first audio file
+        let audio1 = C4AudioPlayer("audio1.mp3")!
+        audio1.loops = true
+        audio1.play()
 
-        audio2 = C4AudioPlayer("audio2.mp3")
-        audio2?.loops = true
-        audio2?.play()
+        //create, loop and play the second audio file
+        let audio2 = C4AudioPlayer("audio2.mp3")!
+        audio2.loops = true
+        audio2.play()
     }
 }
