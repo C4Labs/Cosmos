@@ -21,6 +21,18 @@ import C4
 import UIKit
 
 public class MenuIcons : C4CanvasController {
+    //A dictionary to store references to functions
+    var signIcons : [String:C4Shape]!
+    //An array of targets for the closed state
+    var innerTargets : [C4Point]!
+    //An array of targets for the open state
+    var outerTargets : [C4Point]!
+    //Animations
+    var signIconsOut : C4ViewAnimation!
+    var signIconsIn : C4ViewAnimation!
+    var revealSignIcons : C4ViewAnimation!
+    var hideSignIcons : C4ViewAnimation!
+
     public override func setup() {
         canvas.frame = C4Rect(0,0,80,80)
         canvas.backgroundColor = clear
@@ -29,10 +41,52 @@ public class MenuIcons : C4CanvasController {
     }
     
     //MARK: -
-    //MARK: Sign Icons
-    var signIcons = [String:C4Shape]()
+    //MARK: Animations
+    func createSignIconAnimations() {
+        //animates strokeEnd so the icons are revealed
+        revealSignIcons = C4ViewAnimation(duration: 0.5) {
+            for sign in [C4Shape](self.signIcons.values) {
+                sign.strokeEnd = 1.0
+            }
+        }
+        revealSignIcons?.curve = .EaseOut
+        
+        //animates strokeEnd so the shapes are only dots
+        hideSignIcons = C4ViewAnimation(duration: 0.5) {
+            for sign in [C4Shape](self.signIcons.values) {
+                sign.strokeEnd = 0.001
+            }
+        }
+        hideSignIcons?.curve = .EaseOut
+        
+        //moves icons to open position
+        signIconsOut = C4ViewAnimation(duration: 0.33) {
+            for i in 0..<AstrologicalSignProvider.sharedInstance.order.count {
+                let name = AstrologicalSignProvider.sharedInstance.order[i]
+                if let sign = self.signIcons[name] {
+                    sign.center = self.outerTargets[i]
+                }
+            }
+        }
+        signIconsOut?.curve = .EaseOut
+        
+        //moves icons to closed position
+        signIconsIn = C4ViewAnimation(duration: 0.33) {
+            for i in 0..<AstrologicalSignProvider.sharedInstance.order.count {
+                let name = AstrologicalSignProvider.sharedInstance.order[i]
+                if let sign = self.signIcons[name] {
+                    sign.center = self.innerTargets[i]
+                }
+            }
+        }
+        signIconsIn?.curve = .EaseOut
+    }
     
+    //MARK: -
+    //MARK: Sign Icons
     func createSignIcons() {
+        //Associate all the names of signs with the products of their methods
+        signIcons = [String:C4Shape]()
         signIcons["aries"] = aries()
         signIcons["taurus"] = taurus()
         signIcons["gemini"] = gemini()
@@ -46,11 +100,13 @@ public class MenuIcons : C4CanvasController {
         signIcons["aquarius"] = aquarius()
         signIcons["pisces"] = pisces()
         
+        //style all the signs
         for shape in [C4Shape](self.signIcons.values) {
-            shape.strokeEnd = 0.001
+            shape.strokeEnd = 0.001 //in combination with the next two settings
+            shape.lineCap = .Round  //strokeEnd 0.001 makes a round dot at
+            shape.lineJoin = .Round //the beginning of the shape's path
+            
             shape.transform = C4Transform.makeScale(0.64, 0.64, 1.0)
-            shape.lineCap = .Round
-            shape.lineJoin = .Round
             shape.lineWidth = 2
             shape.strokeColor = white
             shape.fillColor = clear
@@ -59,10 +115,8 @@ public class MenuIcons : C4CanvasController {
         positionSignIcons()
     }
     
-    var innerTargets = [C4Point]()
-    var outerTargets = [C4Point]()
-    
     func positionSignIcons() {
+        innerTargets = [C4Point]()
         let provider = AstrologicalSignProvider.sharedInstance
         //inner radius for the dots in the closed state menu
         let r = 10.5
@@ -87,6 +141,7 @@ public class MenuIcons : C4CanvasController {
             }
         }
         
+        outerTargets = [C4Point]()
         for i in 0..<provider.order.count {
             //outer radius for the signs
             let r = 129.0
@@ -97,6 +152,12 @@ public class MenuIcons : C4CanvasController {
         }
     }
     
+   //MARK: -
+    //MARK: Signs
+    //These intermediate methods take the raw sign struct from the provider
+    //Then, they extract the shape and offset each to the origin point
+    //of the shape's path, this allows us to anchor the "dots" precisely
+    //for the closed state of the menu
     func taurus() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.taurus().shape
         shape.anchorPoint = C4Point()
@@ -167,46 +228,5 @@ public class MenuIcons : C4CanvasController {
         let shape = AstrologicalSignProvider.sharedInstance.scorpio().shape
         shape.anchorPoint = C4Point(0.255,0.775)
         return shape
-    }
-    
-    var signIconsOut : C4ViewAnimation?
-    var signIconsIn : C4ViewAnimation?
-    var revealSignIcons : C4ViewAnimation?
-    var hideSignIcons : C4ViewAnimation?
-    
-    func createSignIconAnimations() {
-        revealSignIcons = C4ViewAnimation(duration: 0.5) {
-            for sign in [C4Shape](self.signIcons.values) {
-                sign.strokeEnd = 1.0
-            }
-        }
-        revealSignIcons?.curve = .EaseOut
-        
-        hideSignIcons = C4ViewAnimation(duration: 0.5) {
-            for sign in [C4Shape](self.signIcons.values) {
-                sign.strokeEnd = 0.001
-            }
-        }
-        hideSignIcons?.curve = .EaseOut
-        
-        signIconsOut = C4ViewAnimation(duration: 0.33) {
-            for i in 0..<AstrologicalSignProvider.sharedInstance.order.count {
-                let name = AstrologicalSignProvider.sharedInstance.order[i]
-                if let sign = self.signIcons[name] {
-                    sign.center = self.outerTargets[i]
-                }
-            }
-        }
-        signIconsOut?.curve = .EaseOut
-        
-        signIconsIn = C4ViewAnimation(duration: 0.33) {
-            for i in 0..<AstrologicalSignProvider.sharedInstance.order.count {
-                let name = AstrologicalSignProvider.sharedInstance.order[i]
-                if let sign = self.signIcons[name] {
-                    sign.center = self.innerTargets[i]
-                }
-            }
-        }
-        signIconsIn?.curve = .EaseOut
     }
 }
