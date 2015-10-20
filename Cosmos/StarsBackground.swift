@@ -21,7 +21,8 @@ import C4
 import UIKit
 
 public class StarsBackground : InfiniteScrollView {
-    
+    //MARK: -
+    //MARK: Initialization
     convenience public init(frame: CGRect, imageName: String, starCount: Int, speed: CGFloat) {
         self.init(frame: frame)
         //Calculates the frame size for the view
