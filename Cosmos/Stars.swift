@@ -22,7 +22,7 @@ import C4
 
 let gapBetweenSigns : CGFloat = 10.0
 
-class ParallaxBackground : C4CanvasController, UIScrollViewDelegate {
+class Stars : C4CanvasController, UIScrollViewDelegate {
     //Specifies how quickly each layer moves, relative to top layer, order = [bottom, ..., top]
     var speeds : [CGFloat] = [0.08,0.0,0.10,0.12,0.15,1.0,0.8,1.0]
     //array of infinite scrollview layers

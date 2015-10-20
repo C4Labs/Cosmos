@@ -23,7 +23,7 @@
 		1FC56D651BC75FF8006155B3 /* InfoPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC56D641BC75FF8006155B3 /* InfoPanel.swift */; settings = {ASSET_TAGS = (); }; };
 		1FC56D721BC798CD006155B3 /* audio1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1FC56D701BC798CD006155B3 /* audio1.mp3 */; settings = {ASSET_TAGS = (); }; };
 		1FC56D731BC798CD006155B3 /* audio2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1FC56D711BC798CD006155B3 /* audio2.mp3 */; settings = {ASSET_TAGS = (); }; };
-		D9CFA8871B8E4C88009325D1 /* ParallaxBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */; };
+		D9CFA8871B8E4C88009325D1 /* Stars.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFA8861B8E4C88009325D1 /* Stars.swift */; };
 		D9F39EF11BD5751600728B4B /* MenuRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EF01BD5751600728B4B /* MenuRings.swift */; settings = {ASSET_TAGS = (); }; };
 		D9F39EF51BD5799D00728B4B /* MenuIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EF41BD5799D00728B4B /* MenuIcons.swift */; settings = {ASSET_TAGS = (); }; };
 		D9F39EF71BD57B0200728B4B /* MenuSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F39EF61BD57B0200728B4B /* MenuSelector.swift */; settings = {ASSET_TAGS = (); }; };
@@ -97,7 +97,7 @@
 		1FC56D641BC75FF8006155B3 /* InfoPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPanel.swift; sourceTree = "<group>"; };
 		1FC56D701BC798CD006155B3 /* audio1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio1.mp3; sourceTree = "<group>"; };
 		1FC56D711BC798CD006155B3 /* audio2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = audio2.mp3; sourceTree = "<group>"; };
-		D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParallaxBackground.swift; sourceTree = "<group>"; };
+		D9CFA8861B8E4C88009325D1 /* Stars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stars.swift; sourceTree = "<group>"; };
 		D9F39EF01BD5751600728B4B /* MenuRings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuRings.swift; sourceTree = "<group>"; };
 		D9F39EF41BD5799D00728B4B /* MenuIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuIcons.swift; sourceTree = "<group>"; };
 		D9F39EF61BD57B0200728B4B /* MenuSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuSelector.swift; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		D9F39F051BD599BF00728B4B /* Background */ = {
 			isa = PBXGroup;
 			children = (
-				D9CFA8861B8E4C88009325D1 /* ParallaxBackground.swift */,
+				D9CFA8861B8E4C88009325D1 /* Stars.swift */,
 				D9F39EFD1BD588A800728B4B /* SignLines.swift */,
 				D9F39EFF1BD58CF800728B4B /* StarsBackground.swift */,
 				D9F39F011BD5901800728B4B /* StarsSmall.swift */,
@@ -311,7 +311,7 @@
 				1F7441961B8C4F710030B671 /* AstrologicalSignProvider.swift in Sources */,
 				D9F39EF51BD5799D00728B4B /* MenuIcons.swift in Sources */,
 				1F0556261B746DD200C05DBB /* ViewController.swift in Sources */,
-				D9CFA8871B8E4C88009325D1 /* ParallaxBackground.swift in Sources */,
+				D9CFA8871B8E4C88009325D1 /* Stars.swift in Sources */,
 				D9F39EFC1BD5802E00728B4B /* MenuShadow.swift in Sources */,
 				1FC56D651BC75FF8006155B3 /* InfoPanel.swift in Sources */,
 				D9F39F021BD5901800728B4B /* StarsSmall.swift in Sources */,
