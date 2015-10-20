@@ -134,6 +134,7 @@ public class StarsBig : InfiniteScrollView {
             
             //calculate the current degrees
             var value = i * 30
+            //if it is > 330, make it 0 so the the overlap is consistent with the first sign's label
             if value > 330 { value = 0 }
             //create a label for the degrees
             let degree = self.createSmallSignDegree(value, font: font)
