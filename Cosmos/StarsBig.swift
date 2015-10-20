@@ -27,16 +27,23 @@ public class StarsBig : InfiniteScrollView {
         //Creates empty scrollview to return
         clipsToBounds = false
         
+        //grabs the current order
         var signOrder = AstrologicalSignProvider.sharedInstance.order
         //sets the contents size to signCount * single size, adds canvas.width to account for overlap to hide snap
         contentSize = CGSizeMake(frame.size.width * (1.0 + CGFloat(signOrder.count) * gapBetweenSigns), 1.0)
         
+        //appends a copy of the first sign to the end of the order
         signOrder.append(signOrder[0])
         
+        //adds all the big stars to the view
         for i in 0..<signOrder.count {
+            //calculates the offset
             let dx = Double(i) * Double(frame.size.width  * gapBetweenSigns)
+            //creates a transform
             let t = C4Transform.makeTranslation(C4Vector(x: Double(center.x) + dx, y: Double(center.y), z: 0))
+            //grabs the current sign
             if let sign = AstrologicalSignProvider.sharedInstance.get(signOrder[i]) {
+                //creates a new big star for each point
                 for point in sign.big {
                     let img = C4Image("7bigStar")!
                     var p = point
@@ -51,8 +58,12 @@ public class StarsBig : InfiniteScrollView {
         addSignNames()
     }
     
+    //adds the short, tall and white dashes to the bottom of the view
     func addDashesMarker() {
+        //grabs the points for the bottom-left and bottom-right coordinates of the contentsize
         let points = (C4Point(0,Double(frame.maxY)),C4Point(Double(contentSize.width),Double(frame.maxY)))
+
+        //creates a line of short dashes
         let dashes = C4Line(points)
         dashes.lineDashPattern = [0.75,3.25]
         dashes.lineWidth = 10
@@ -60,13 +71,16 @@ public class StarsBig : InfiniteScrollView {
         dashes.opacity = 0.33
         dashes.lineCap = .Butt
         
+        //creates a line of tall dashes
         let highdashes = C4Line(points)
         highdashes.lineDashPattern = [1,31]
         highdashes.lineWidth = 20
         highdashes.strokeColor = cosmosblue
         highdashes.lineCap = .Butt
+        //adds the high dashes to the short dashes
         dashes.add(highdashes)
         
+        //creates a line of tall white markers
         let marker = C4Line(points)
         marker.lineDashPattern = [1.0,Double(frame.size.width * gapBetweenSigns)-1.0]
         marker.lineWidth = 40
@@ -81,32 +95,47 @@ public class StarsBig : InfiniteScrollView {
     }
     
     func addSignNames() {
+        //grabs the sign names
         var signNames = AstrologicalSignProvider.sharedInstance.order
+        //appends a copy of the first name to the end of the array
         signNames.append(signNames[0])
         
+        //specify the y position of the sign
         let y = Double(frame.size.height - 86.0)
+        //calculate the displacement to the current frame
         let dx = Double(frame.size.width * gapBetweenSigns)
+        //define the offset to the center of the canvas
         let offset = Double(frame.size.width / 2.0)
+        //create a font
         let font = C4Font(name:"Menlo-Regular", size: 13.0)!
         
+        //for each of the names
         for i in 0..<signNames.count {
+            //grab the current
             let name = signNames[i]
-            var point = C4Point(offset + dx * Double(i),y)
             
+            //calculate the point for the sign
+            var point = C4Point(offset + dx * Double(i),y)
+            //grab the current sign (based on the name), add it to the view
             if let sign = self.createSmallSign(name) {
                 sign.center = point
                 add(sign)
             }
             
+            //offset y by a bit
             point.y += 26.0
             
+            //add a label for the current name
             let title = self.createSmallSignTitle(name, font: font)
             title.center = point
             
+            //offset y by a little bit
             point.y+=22.0
             
+            //calculate the current degrees
             var value = i * 30
             if value > 330 { value = 0 }
+            //create a label for the degrees
             let degree = self.createSmallSignDegree(value, font: font)
             degree.center = point
             
@@ -117,18 +146,20 @@ public class StarsBig : InfiniteScrollView {
     
     func createSmallSign(name: String) -> C4Shape? {
         var smallSign : C4Shape?
-        
+        //try to extract a sign from the provider, and style it
         if let sign = AstrologicalSignProvider.sharedInstance.get(name)?.shape {
             sign.lineWidth = 2
             sign.strokeColor = white
             sign.fillColor = clear
             sign.opacity = 0.33
+            //scale the sign down from its original size
             sign.transform = C4Transform.makeScale(0.66, 0.66, 0)
             smallSign = sign
         }
         return smallSign
     }
     
+    //create a text shape from a name and a font
     func createSmallSignTitle(name: String, font: C4Font) -> C4TextShape {
         let text = C4TextShape(text:name, font:font)!
         text.fillColor = white
@@ -138,6 +169,7 @@ public class StarsBig : InfiniteScrollView {
     }
     
     func createSmallSignDegree(degree: Int, font: C4Font) -> C4TextShape {
+        //return a string with a little degree symbol
         return createSmallSignTitle("\(degree)°", font: font)
     }
 
