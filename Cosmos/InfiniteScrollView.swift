@@ -23,32 +23,5 @@ import Foundation
 public class InfiniteScrollView: UIScrollView {
     public override func layoutSubviews() {
         super.layoutSubviews()
-
-        //grab the current content offset (top-left corner)
-        var curr = contentOffset
-        //if the x value is less than zero
-        if curr.x < 0 {
-            //update x to the end of the scrollview
-            curr.x = contentSize.width - frame.width
-        }
-        //if the x value is greater than the width - frame width
-        //(i.e. when the top-right point goes beyond contentSize.width)
-        else if curr.x >= contentSize.width - frame.width {
-            //update x to the beginning of the scrollview
-            curr.x = 0
-        }
-
-        //if the value of y is less than zero
-        if curr.y < 0 {
-            //update x to the end of the scrollview
-            curr.y = contentSize.height - frame.height
-        }
-        //if the y value is greater than the height - frame height
-        //(i.e. when the top-right point goes beyond contentSize.width)
-        else if curr.y >= contentSize.height - frame.height {
-            //update x to the beginning of the scrollview
-            curr.y = 0
-        }
-        contentOffset = curr
     }
 }
