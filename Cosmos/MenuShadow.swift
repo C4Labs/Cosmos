@@ -21,8 +21,12 @@ import C4
 import UIKit
 
 public class MenuShadow : C4CanvasController {
-    var shadow : C4Shape!
+    //MARK: -
+    //MARK: Properties
+    var reveal : C4ViewAnimation?
+    var hide : C4ViewAnimation?
 
+    //The "shadow" is simply a styled canvas with methods for hiding and revealing it
     public override func setup() {
         canvas.frame = C4Rect(UIScreen.mainScreen().bounds)
         canvas.backgroundColor = black
@@ -30,19 +34,15 @@ public class MenuShadow : C4CanvasController {
         createShadowAnimations()
     }
     
-    var revealShadow : C4ViewAnimation?
-    var hideShadow : C4ViewAnimation?
-    
     func createShadowAnimations() {
-        revealShadow = C4ViewAnimation(duration:0.25) {
+        reveal = C4ViewAnimation(duration:0.25) {
             self.canvas.opacity = 0.44
         }
-        revealShadow?.curve = .EaseOut
+        reveal?.curve = .EaseOut
         
-        hideShadow = C4ViewAnimation(duration:0.25) {
+        hide = C4ViewAnimation(duration:0.25) {
             self.canvas.opacity = 0.0
         }
-        hideShadow?.curve = .EaseOut
+        hide?.curve = .EaseOut
     }
-
 }

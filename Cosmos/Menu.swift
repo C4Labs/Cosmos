@@ -153,7 +153,7 @@ class Menu : C4CanvasController {
         //play the reveal sound
         menuSelector.revealMenuSound.play()
         //reveal the shadow
-        menuShadow.revealShadow?.animate()
+        menuShadow.reveal?.animate()
         //animate the thick ring
         menuRings.thickRingOut?.animate()
         //animate the thin rings
@@ -221,7 +221,7 @@ class Menu : C4CanvasController {
             //animate the thick ring in
             self.menuRings.thickRingIn?.animate()
             //hide the shadow
-            self.menuShadow.hideShadow?.animate()
+            self.menuShadow.hide?.animate()
             //re-enable interaction on the canvas
             self.canvas.interactionEnabled = true
         }
