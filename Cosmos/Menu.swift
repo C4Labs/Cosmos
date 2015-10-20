@@ -26,41 +26,63 @@ typealias InfoAction = () -> Void
 class Menu : C4CanvasController {
     //MARK: -
     //MARK: Properties
+    //A canvas that handles drawing and animating the menu's rings
+    var menuRings : MenuRings!
+    //A canvas that handles drawing and animating the menu's icons
+    var menuIcons : MenuIcons!
+    //A canvas for handling the gesture and selection highlight
+    var menuSelector : MenuSelector!
+    //A canvas for animating the shadow of the menu
+    var menuShadow : MenuShadow!
 
+    //A boolean for tracking when the menu is expanded (or expanding)
     var menuIsVisible = false
+    //A boolean to track if the menu should revert to its closed state
     var shouldRevert = false
 
+    //A label that instructs the user to press and hold on the menu
     var instructionLabel : UILabel!
+    //A timer that will reveal the menu, shortly after the app opens and if the user doesn't press the menu
     var timer : C4Timer!
 
+    //An action to trigger when the user has selected one of the icons from the menu
     var selectionAction : SelectionAction?
+    //An action to trigger when the user has chosen the info button from the menu
     var infoAction : InfoAction?
-
-    var menuRings : MenuRings!
-    var menuIcons : MenuIcons!
-    var menuSelector : MenuSelector!
-    var menuShadow : MenuShadow!
     
     //MARK: -
+    //MARK: Setup
     override func setup() {
-        
+        //clear the background
         canvas.backgroundColor = clear
+        //make the canvas frame fairly small
         canvas.frame = C4Rect(0,0,80,80)
 
+        //create the rings
         menuRings = MenuRings()
+        
+        //create the selector
         menuSelector = MenuSelector()
+        
+        //create the icons
         menuIcons = MenuIcons()
+
+        //create the shadow
         menuShadow = MenuShadow()
         menuShadow.canvas.center = canvas.bounds.center
         
+        //add the canvases of each object in specific order (back to front)
         canvas.add(menuShadow.canvas)
         canvas.add(menuRings.canvas)
         canvas.add(menuSelector.canvas)
         canvas.add(menuIcons.canvas)
         
+        //create a gesture to handle interaction
         createGesture()
+        //create the instruction label
         createInstructionLabel()
 
+        //create and start the timer, it will execute one time
         timer = C4Timer(interval: 5.0, count: 1) {
             self.showInstruction()
         }
@@ -68,9 +90,147 @@ class Menu : C4CanvasController {
     }
 
     //MARK: -
-    //MARK: Instruction Label
+    //MARK: Gesture
+    func createGesture() {
+        //add a long press gesture to the menu's canvas
+        canvas.addLongPressGestureRecognizer { (location, state) -> () in
+            switch state {
+            case .Began:
+                self.revealMenu() //reveals the menu when the gesture begins
+            case .Changed:
+                self.menuSelector.update(location) //updates the menu based on the user's press location
+            case .Cancelled, .Ended, .Failed:
+                //if the selection action exists
+                if let sa = self.selectionAction where self.menuSelector.currentSelection >= 0 {
+                    //trigger it with the current selection
+                    sa(selection: self.menuSelector.currentSelection)
+                }
+                //hide the menu label
+                self.menuSelector.menuLabel?.hidden = true
+                //reset the current selection
+                self.menuSelector.currentSelection = -1
+                //disable interaction (temporarily)
+                self.canvas.interactionEnabled = false
+                
+                //hide the highlight if it is visible
+                if self.menuSelector.highlight?.hidden == false {
+                    self.menuSelector.highlight?.hidden = true
+                }
+                //hide the menu if it is visible
+                if self.menuIsVisible {
+                    self.hideMenu()
+                } else {
+                    //if the menu isn't visible (i.e. still animating out), flag it to revert
+                    self.shouldRevert = true
+                }
+                //if the infobutton exists
+                if let ib = self.menuSelector.infoButton {
+                    //hit test it to see if the user has selected info
+                    if ib.hitTest(location, from: self.canvas),
+                        //if so, wait a bit (for the menu to close) and then run the info action
+                        let ia = self.infoAction {
+                            delay(0.75) {
+                                ia()
+                            }
+                    }
+                }
+            default:
+                _ = ""
+            }
+        }
+    }
+    
+    //MARK: -
+    //MARK: Menu Reveal / Hide
+    func revealMenu() {
+        //stop the timer
+        timer?.stop()
+        //hide the instruction label
+        hideInstruction()
 
+        //flag the menu as not visible (just in case)
+        menuIsVisible = false
+        //play the reveal sound
+        menuSelector.revealMenuSound.play()
+        //reveal the shadow
+        menuShadow.revealShadow?.animate()
+        //animate the thick ring
+        menuRings.thickRingOut?.animate()
+        //animate the thin rings
+        menuRings.thinRingsOut?.animate()
+        //move the icons to their outer positions
+        menuIcons.signIconsOut?.animate()
+
+        //wait a bit
+        delay(0.33) {
+            //reveal the dividing lines
+            self.menuRings.revealHideDividingLines(1.0)
+            //reveal the sign icons
+            self.menuIcons.revealSignIcons?.animate()
+        }
+        //wait a little bit more
+        delay(0.66) {
+            //reveal the dashed rings
+            self.menuRings.revealDashedRings?.animate()
+            //reveal the info button
+            self.menuSelector.revealInfoButton?.animate()
+        }
+        //the menu should be open at this point
+        delay(1.0) {
+            //so, set visible to true
+            self.menuIsVisible = true
+            //check if the menu should revert (i.e. if the user released the press while the menu was animating out
+            if self.shouldRevert {
+                self.hideMenu()
+                self.shouldRevert = false
+            }
+        }
+    }
+
+    func hideMenu() {
+        //if the instruction label is visible, hide it
+        if instructionLabel?.alpha > 0.0 {
+            hideInstruction()
+        }
+
+        //treat the menu as not visible while animating back to its closed state
+        menuIsVisible = false
+        //play the hide sound
+        menuSelector.hideMenuSound.play()
+        //hide the dashed rings
+        menuRings.hideDashedRings?.animate()
+        //hide the info button
+        menuSelector.hideInfoButton?.animate()
+        //hide the dashed lines
+        menuRings.revealHideDividingLines(0.0)
+
+        //wait a little bit
+        delay(0.16) {
+            //hide the icons
+            self.menuIcons.hideSignIcons?.animate()
+        }
+        //wait a little bit longer
+        delay(0.57) {
+            //animate the thin rings
+            menuRings.thinRingsIn?.animate()
+        }
+        //wait just a tiny bit more
+        delay(0.66) {
+            //move the menu icons back to their close position
+            self.menuIcons.signIconsIn?.animate()
+            //animate the thick ring in
+            self.menuRings.thickRingIn?.animate()
+            //hide the shadow
+            self.menuShadow.hideShadow?.animate()
+            //re-enable interaction on the canvas
+            self.canvas.interactionEnabled = true
+        }
+    }
+
+    //MARK: -
+    //MARK: Instruction Label
     func createInstructionLabel() {
+        //create a basic label, style it and add it to the canvas
         let instruction = UILabel(frame: CGRect(x: 0,y: 0,width: 320, height: 44))
         instruction.text = "press and hold to open menu\nthen drag to choose a sign"
         instruction.font = UIFont(name: "Menlo-Regular", size: 13)
@@ -83,112 +243,16 @@ class Menu : C4CanvasController {
         instructionLabel = instruction
         canvas.add(instructionLabel)
     }
-
+    
     func showInstruction() {
         C4ViewAnimation(duration: 2.5) {
             self.instructionLabel?.alpha = 1.0
-        }.animate()
+            }.animate()
     }
-
+    
     func hideInstruction() {
         C4ViewAnimation(duration: 0.25) {
             self.instructionLabel?.alpha = 0.0
-        }.animate()
+            }.animate()
     }
-
-    func revealMenu() {
-        timer?.stop()
-
-        hideInstruction()
-
-        menuIsVisible = false
-        menuSelector.revealMenuSound.play()
-        menuShadow.revealShadow?.animate()
-        menuRings.thickRingOut?.animate()
-        menuRings.thinRingsOut?.animate()
-        menuIcons.signIconsOut?.animate()
-
-        delay(0.33) {
-            self.menuRings.revealHideDividingLines(1.0)
-            self.menuIcons.revealSignIcons?.animate()
-        }
-        delay(0.66) {
-            self.menuRings.revealDashedRings?.animate()
-            self.menuSelector.revealInfoButton?.animate()
-        }
-        delay(1.0) {
-            self.menuIsVisible = true
-            if self.shouldRevert {
-                self.hideMenu()
-                self.shouldRevert = false
-            }
-        }
-    }
-
-    func hideMenu() {
-        if instructionLabel?.alpha > 0.0 {
-            hideInstruction()
-        }
-
-        menuIsVisible = false
-
-        menuSelector.hideMenuSound.play()
-        menuRings.hideDashedRings?.animate()
-        menuSelector.hideInfoButton?.animate()
-        menuRings.revealHideDividingLines(0.0)
-
-        delay(0.16) {
-            self.menuIcons.hideSignIcons?.animate()
-        }
-        delay(0.57) {
-            menuRings.thinRingsIn?.animate()
-        }
-        delay(0.66) {
-            self.menuIcons.signIconsIn?.animate()
-            self.menuRings.thickRingIn?.animate()
-            self.menuShadow.hideShadow?.animate()
-            self.canvas.interactionEnabled = true
-        }
-    }
-
-    //MARK: -
-    //MARK: Gesture
-    func createGesture() {
-        canvas.addLongPressGestureRecognizer { (location, state) -> () in
-            switch state {
-            case .Began:
-                self.revealMenu()
-            case .Changed:
-                self.menuSelector.updateMenuHighlight(location)
-            case .Cancelled, .Ended, .Failed:
-                if let sa = self.selectionAction where self.menuSelector.currentSelection >= 0 {
-                    sa(selection: self.menuSelector.currentSelection)
-                }
-                self.menuSelector.menuLabel?.hidden = true
-                self.menuSelector.currentSelection = -1
-                self.canvas.interactionEnabled = false
-
-                if self.menuSelector.menuHighlight?.hidden == false {
-                    self.menuSelector.menuHighlight?.hidden = true
-                }
-                if self.menuIsVisible {
-                    self.hideMenu()
-                } else {
-                    self.shouldRevert = true
-                }
-                if let ib = self.menuSelector.infoButton {
-                    if ib.hitTest(location, from: self.canvas),
-                        let ia = self.infoAction {
-                            delay(0.75) {
-                                ia()
-                            }
-                    }
-                }
-            default:
-                _ = ""
-            }
-        }
-    }
-
-    
 }
