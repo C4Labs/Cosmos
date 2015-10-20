@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-import C4
+import Foundation
 
 //typealias that returns an astrological sign
 //so we can "store" the methods in a dictionary

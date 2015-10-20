@@ -18,7 +18,7 @@
 // IN THE SOFTWARE.
 
 import UIKit
-import C4
+
 
 //The amount of space between constellations (e.g. big/small stars)
 let gapBetweenSigns : CGFloat = 10.0
