@@ -20,6 +20,7 @@
 import UIKit
 import C4
 
+//The amount of space between constellations (e.g. big/small stars)
 let gapBetweenSigns : CGFloat = 10.0
 
 class Stars : C4CanvasController, UIScrollViewDelegate {
@@ -30,8 +31,11 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
     //variable used for marking observeValueForKeyPath
     var scrollviewOffsetContext = 0
 
+    //the scrollview that holds the lines that connect small and big stars
     var signLines : SignLines!
+    //the scrollview that holds the big star images, need variable to be able to observe its scroll position
     var bigStars : StarsBig!
+    //array of targets to which the scrollview should snap
     var snapTargets : [CGFloat]!
     
 
@@ -46,15 +50,22 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
         scrollviews.append(StarsBackground(frame: view.frame, imageName: "3Star", starCount: 20, speed: speeds[3]))
         scrollviews.append(StarsBackground(frame: view.frame, imageName: "4Star", starCount: 20, speed: speeds[4]))
         
+        //Create the layer with the lines
         signLines = SignLines(frame: view.frame)
         scrollviews.append(signLines)
         
+        //Create the layer with the small stars
         scrollviews.append(StarsSmall(frame: view.frame, speed: speeds[6]))
 
+        //Create the layer with th big stars
         bigStars = StarsBig(frame: view.frame)
+        //Add an observer for the scroll view's offset
         bigStars.addObserver(self, forKeyPath: "contentOffset", options: .New, context: &scrollviewOffsetContext)
+        //Set the offset so the app appears with no sign
         bigStars.contentOffset = CGPointMake(view.frame.size.width * CGFloat(gapBetweenSigns / 2.0), 0)
+        //Set the delegate of the scrollview (so that the observer method triggers)
         bigStars.delegate = self
+        //Add it to the list of layers
         scrollviews.append(bigStars)
         
         //adds all layers to the canvas
@@ -66,6 +77,7 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
     }
 
     //MARK: Vignette
+    //No need for a class for the vignette, it's simple to have an ISV with 0 speed
     func createVignette() -> InfiniteScrollView {
         let sv = InfiniteScrollView(frame: view.frame)
         let img = C4Image("1vignette")!
@@ -94,6 +106,8 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
 
     //MARK: Snapping
     func createSnapTargets() {
+        //the app will check against these targets to see if it should snap into place
+        //each target is essentially the placement of the white dashes for each sign
         snapTargets = [CGFloat]()
         for i in 0...12 {
             snapTargets.append(CGFloat(Double(gapBetweenSigns) * Double(i)*canvas.width))
@@ -101,12 +115,21 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
     }
 
     func snapIfNeeded(x: CGFloat, _ scrollView: UIScrollView) {
+        //check all the targets
         for target in snapTargets {
+            //calculate the distance from a position to that of the target
             let dist = abs(CGFloat(target) - x)
+            //if the abs value is less than half the width of the screen
+            //i.e. if the "dash" is on screen
             if dist <= CGFloat(canvas.width/2.0) {
+                //snap the scrollview into place
                 scrollView.setContentOffset(CGPointMake(target,0), animated: true)
+                //wait a bit
                 delay(0.25) {
+                    //then reveal the current lines
                     var index = Int(Double(target) / (self.canvas.width * Double(gapBetweenSigns)))
+                    //if the "index" is 13 (i.e. that bit that overlaps) then make sure the index is 0
+                    //0 is the same set of lines as 13
                     if index == 12 { index = 0 }
                     self.signLines.currentIndex = index
                     self.signLines.revealCurrentSignLines()
@@ -117,14 +140,14 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
     }
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        let x = scrollView.contentOffset.x
-        snapIfNeeded(x, scrollView)
+        //any time the view slows down and stops on its own
+        snapIfNeeded(scrollView.contentOffset.x, scrollView)
     }
 
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        //if the user has ended dragging and the view doesn't move (e.g. touch, drag, stop, release)
         if decelerate == false {
-            let x = scrollView.contentOffset.x
-            snapIfNeeded(x, scrollView)
+            snapIfNeeded(scrollView.contentOffset.x, scrollView)
         }
     }
 
@@ -134,17 +157,20 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
 
     //MARK: Go To
     func goto(selection: Int) {
+        //figure out the target location
         let target = canvas.width * Double(gapBetweenSigns) * Double(selection)
 
+        //animate the bigStars layer to the target
         let anim = C4ViewAnimation(duration: 3.0) { () -> Void in
-            self.scrollviews.last?.contentOffset = CGPoint(x: CGFloat(target),y: 0)
+            self.bigStars.contentOffset = CGPoint(x: CGFloat(target),y: 0)
         }
         anim.curve = .EaseOut
+        anim.addCompletionObserver { () -> Void in
+            self.signLines.revealCurrentSignLines()
+        }
         anim.animate()
         
+        //update the current index
         signLines.currentIndex = selection
-        delay(anim.duration) { () -> () in
-                self.signLines.revealCurrentSignLines()
-        }
     }
 }
