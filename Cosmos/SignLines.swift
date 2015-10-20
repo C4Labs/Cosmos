@@ -39,7 +39,7 @@ public class SignLines : InfiniteScrollView {
         for i in 0..<signOrder.count {
             let dx = Double(i) * Double(frame.width) * Double(gapBetweenSigns)
             let t = C4Transform.makeTranslation(C4Vector(x: Double(center.x) + dx, y: Double(center.y), z: 0))
-            if var sign = AstrologicalSignProvider.sharedInstance.get(signOrder[i]) {
+            if let sign = AstrologicalSignProvider.sharedInstance.get(signOrder[i]) {
                 let connections = sign.lines
                 
                 var currentLineSet = [C4Line]()
