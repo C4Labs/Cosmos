@@ -19,20 +19,30 @@
 
 import C4
 
+//typealias that returns an astrological sign
+//so we can "store" the methods in a dictionary
 typealias AstrologicalSignFunction = () -> AstrologicalSign
 
+//Structure that represents a sign
 struct AstrologicalSign {
+    //the shape of the icon
     var shape : C4Shape!
-    lazy var big = [C4Point]()
-    lazy var small = [C4Point]()
-    lazy var lines = [[C4Point]]()
+    //relative positions of big stars
+    var big : [C4Point]!
+    //relative positions of small stars
+    var small : [C4Point]!
+    //relative positions of lines between stars
+    var lines : [[C4Point]]!
 }
 
 class AstrologicalSignProvider : NSObject {
+    //Creates a singleton
     static let sharedInstance = AstrologicalSignProvider()
     
+    //Sets the order of the signs
     let order = ["pisces", "aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius"]
-    //FIXME: will need to explain "why" mappings
+
+    //Maps the name of a sign to a method that will return it
     internal var mappings = [String : AstrologicalSignFunction]()
 
     override init() {
@@ -53,11 +63,15 @@ class AstrologicalSignProvider : NSObject {
         ]
     }
 
+    //method that takes the name of a sign and returns the corresponding structure
     func get(sign: String) -> AstrologicalSign? {
-        let closure = mappings[sign.lowercaseString]
-        return closure!()
+        //grabs the function
+        let function = mappings[sign.lowercaseString]
+        //returns the results of executing the function
+        return function!()
     }
 
+    //The following methods each represent an astrological sign, whose points (big/small) are calculated relative to {0,0}
     func taurus() -> AstrologicalSign {
         let bezier = C4Path()
 
