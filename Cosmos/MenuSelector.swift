@@ -1,10 +1,21 @@
+// Copyright © 2015 C4
 //
-//  MenuHighlight.swift
-//  Cosmos
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions: The above copyright
+// notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 //
-//  Created by travis on 2015-10-19.
-//  Copyright © 2015 C4. All rights reserved.
-//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
 
 import C4
 import UIKit
@@ -12,6 +23,7 @@ import UIKit
 public class MenuSelector : C4CanvasController {
     var currentSelection = -1
     var menuLabel : C4TextShape!
+    var highlight : C4Shape?
 
     var infoButton : C4View!
 
@@ -53,10 +65,10 @@ public class MenuSelector : C4CanvasController {
 
     //MARK: -
     //MARK: Highlight
-    func updateMenuHighlight(location: C4Point) {
+    func update(location: C4Point) {
         let dist = distance(location, rhs: self.canvas.bounds.center)
         if dist > 102 && dist < 156 {
-            menuHighlight?.hidden = false
+            highlight?.hidden = false
             let a = C4Vector(x:self.canvas.width / 2.0+1.0, y:self.canvas.height/2.0)
             let b = C4Vector(x:self.canvas.width / 2.0, y:self.canvas.height/2.0)
             let c = C4Vector(x:location.x, y:location.y)
@@ -79,10 +91,10 @@ public class MenuSelector : C4CanvasController {
                 C4ShapeLayer.disableActions = false
                 currentSelection = index
                 let rotation = C4Transform.makeRotation(degToRad(Double(currentSelection) * 30.0), axis: C4Vector(x: 0,y: 0,z: -1))
-                self.menuHighlight?.transform = rotation
+                self.highlight?.transform = rotation
             }
         } else {
-            self.menuHighlight?.hidden = true
+            self.highlight?.hidden = true
             self.menuLabel?.hidden = true
             self.currentSelection = -1
             if let l = infoButton  {
@@ -97,7 +109,6 @@ public class MenuSelector : C4CanvasController {
         }
     }
     
-    var menuHighlight : C4Shape?
     func createMenuHighlight() {
         let wedge = C4Wedge(center: canvas.center, radius: 156, start: M_PI/6.0, end: 0.0, clockwise: false)
         wedge.fillColor = cosmosblue
@@ -113,8 +124,8 @@ public class MenuSelector : C4CanvasController {
         donut.lineWidth = 54
         wedge.mask = donut
         
-        menuHighlight = wedge
-        canvas.add(menuHighlight)
+        highlight = wedge
+        canvas.add(highlight)
     }
     
     //MARK: -
