@@ -254,8 +254,10 @@ public class MenuRings : C4CanvasController {
         //adds 12 lines and rotates them into position
         for i in 0...11 {
             let line = C4Line((C4Point(),C4Point(54,0)))
+            //adjusting the anchor point means centering the shape will be offset so that it appears to the right
             line.anchorPoint = C4Point(-1.88888,0)
             line.center = canvas.center
+            //rotate the shape around the offset anchor point
             line.transform = C4Transform.makeRotation(M_PI / 6.0 * Double(i) , axis: C4Vector(x: 0, y: 0, z: -1))
             line.lineCap = .Butt
             line.strokeColor = cosmosblue
