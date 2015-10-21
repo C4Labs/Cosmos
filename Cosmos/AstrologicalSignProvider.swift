@@ -36,6 +36,8 @@ struct AstrologicalSign {
 }
 
 class AstrologicalSignProvider : NSObject {
+    //MARK: -
+    //MARK: Properties
     //Creates a singleton
     static let sharedInstance = AstrologicalSignProvider()
     
@@ -45,6 +47,8 @@ class AstrologicalSignProvider : NSObject {
     //Maps the name of a sign to a method that will return it
     internal var mappings = [String : AstrologicalSignFunction]()
 
+    //MARK: -
+    //MARK: Initialization
     override init() {
         super.init()
         mappings = [
@@ -63,6 +67,8 @@ class AstrologicalSignProvider : NSObject {
         ]
     }
 
+    //MARK: -
+    //MARK: Get
     //method that takes the name of a sign and returns the corresponding structure
     func get(sign: String) -> AstrologicalSign? {
         //grabs the function
@@ -71,6 +77,8 @@ class AstrologicalSignProvider : NSObject {
         return function!()
     }
 
+    //MARK: -
+    //MARK: Signs
     //The following methods each represent an astrological sign, whose points (big/small) are calculated relative to {0,0}
     func taurus() -> AstrologicalSign {
         let bezier = C4Path()

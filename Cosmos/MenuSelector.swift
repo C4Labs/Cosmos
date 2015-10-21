@@ -21,6 +21,8 @@ import C4
 import UIKit
 
 public class MenuSelector : C4CanvasController {
+    //MARK: -
+    //MARK: Properties
     //The current menu selection index
     var currentSelection = -1
     //The label that displays the current selection's name
@@ -40,6 +42,8 @@ public class MenuSelector : C4CanvasController {
     let hideMenuSound = C4AudioPlayer("menuClose.mp3")!
     let revealMenuSound = C4AudioPlayer("menuOpen.mp3")!
 
+    //MARK: -
+    //MARK: Setup
     public override func setup() {
         //create the frame, small like the other classes
         canvas.frame = C4Rect(0,0,80,80)

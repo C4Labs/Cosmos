@@ -21,8 +21,12 @@ import C4
 import UIKit
 
 public class InfoPanel : C4CanvasController {
+    //MARK: -
+    //MARK: Properties
     var link : C4TextShape?
 
+    //MARK: -
+    //MARK: Setup
     public override func setup() {
         //makes the background slightly dark
         canvas.backgroundColor = C4Color(red: 0, green: 0, blue: 0, alpha: 0.33)
@@ -40,6 +44,8 @@ public class InfoPanel : C4CanvasController {
         hideGesture()
     }
 
+    //MARK: -
+    //MARK: Logo
     func createLogo() {
         //creates an image and positions it before adding it to the screen
         let logo = C4Image("logo")!
@@ -47,6 +53,8 @@ public class InfoPanel : C4CanvasController {
         canvas.add(logo)
     }
 
+    //MARK: -
+    //MARK: Label
     func createLabel() {
         //creates the message to be displayed in the label
         let message = "COSMOS is a lovingly\nbuilt app created\nby the C4 team.\n\n\nWe hope you enjoy\ncruising the COSMOS.\n\n\nYou can learn how\nto build this app\n on our site at:"
@@ -65,6 +73,8 @@ public class InfoPanel : C4CanvasController {
         canvas.add(text)
     }
 
+    //MARK: -
+    //MARK: Link
     func createLink() {
         //creates a textshape
         let f = C4Font(name: "Menlo-Regular", size: 24)!
@@ -88,6 +98,8 @@ public class InfoPanel : C4CanvasController {
         canvas.add(line)
     }
 
+    //MARK: -
+    //MARK: Gesture
     func linkGesture() {
         //creates a press gesture
         let press = link?.addLongPressGestureRecognizer { location, state in
@@ -116,6 +128,8 @@ public class InfoPanel : C4CanvasController {
         }
     }
 
+    //MARK: -
+    //MARK: Animations
     func hide() {
         C4ViewAnimation(duration: 0.25) { () -> Void in
             self.canvas.opacity = 0.0

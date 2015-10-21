@@ -21,6 +21,8 @@ import UIKit
 import Foundation
 
 public class InfiniteScrollView: UIScrollView {
+    //MARK: -
+    //MARK: Initalization
     public override func layoutSubviews() {
         super.layoutSubviews()
 

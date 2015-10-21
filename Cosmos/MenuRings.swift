@@ -41,6 +41,8 @@ public class MenuRings : C4CanvasController {
     var menuIsVisible = false
     
     
+    //MARK: -
+    //MARK: Setup
     public override func setup() {
         //clear the canvas
         canvas.backgroundColor = clear

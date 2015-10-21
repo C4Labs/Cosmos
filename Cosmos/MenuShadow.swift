@@ -26,6 +26,8 @@ public class MenuShadow : C4CanvasController {
     var reveal : C4ViewAnimation?
     var hide : C4ViewAnimation?
 
+    //MARK: -
+    //MARK: Setup
     //The "shadow" is simply a styled canvas with methods for hiding and revealing it
     public override func setup() {
         canvas.frame = C4Rect(UIScreen.mainScreen().bounds)
@@ -34,6 +36,8 @@ public class MenuShadow : C4CanvasController {
         createShadowAnimations()
     }
     
+    //MARK: -
+    //MARK: Animations
     func createShadowAnimations() {
         reveal = C4ViewAnimation(duration:0.25) {
             self.canvas.opacity = 0.44
