@@ -42,10 +42,10 @@ public class SignLines : InfiniteScrollView {
         
         //grab the number of signs we're going to work with
         let count = CGFloat(AstrologicalSignProvider.sharedInstance.order.count)
-        
+
         //calculate the content size of the entire layer, add a width to compensate for the scrollview overlap
         contentSize = CGSizeMake(frame.width * (count * gapBetweenSigns + 1), 1.0)
-        
+
         //grab the order of the signs
         var signOrder = AstrologicalSignProvider.sharedInstance.order
         //append a copy of the first sign to the end of the order (now there will be 13)
@@ -54,7 +54,7 @@ public class SignLines : InfiniteScrollView {
         lines = [[C4Line]]()
         for i in 0..<signOrder.count {
             //calculate the current displacement for the sign
-            let dx = Double(i) * Double(frame.width) * Double(gapBetweenSigns)
+            let dx = Double(i) * Double(frame.width * gapBetweenSigns)
             //create a translation that considers the dx as well as positioning in vertical center of the screen
             let t = C4Transform.makeTranslation(C4Vector(x: Double(center.x) + dx, y: Double(center.y), z: 0))
             //grab the sign for the current name
@@ -99,14 +99,14 @@ public class SignLines : InfiniteScrollView {
             for line in self.currentLines {
                 line.strokeEnd = 1.0
             }
-            }.animate()
+        }.animate()
     }
-    
+
     func hideCurrentSignLines() {
         C4ViewAnimation(duration: 0.25) {
             for line in self.currentLines {
                 line.strokeEnd = 0.0
             }
-            }.animate()
+        }.animate()
     }
 }

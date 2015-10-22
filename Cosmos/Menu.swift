@@ -212,7 +212,7 @@ class Menu : C4CanvasController {
         //wait a little bit longer
         delay(0.57) {
             //animate the thin rings
-            menuRings.thinRingsIn?.animate()
+            self.menuRings.thinRingsIn?.animate()
         }
         //wait just a tiny bit more
         delay(0.66) {

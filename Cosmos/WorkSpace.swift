@@ -31,8 +31,8 @@ class WorkSpace: C4CanvasController {
         canvas.backgroundColor = cosmosbkgd
 
         //create the parallax background
-        let background = Stars()
-        canvas.add(background.canvas)
+        let stars = Stars()
+        canvas.add(stars.canvas)
 
         //create the menu and center it
         let menu = Menu()
@@ -44,7 +44,7 @@ class WorkSpace: C4CanvasController {
         canvas.add(info.canvas)
 
         //assign the selection action for the menu
-        menu.selectionAction = background.goto
+        menu.selectionAction = stars.goto
         //assign the info action for the menu
         menu.infoAction = info.show
 

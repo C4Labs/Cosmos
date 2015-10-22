@@ -26,16 +26,13 @@ public class StarsBackground : InfiniteScrollView {
     convenience public init(frame: CGRect, imageName: String, starCount: Int, speed: CGFloat) {
         self.init(frame: frame)
         //Calculates the frame size for the view
-        let frameSize = frame.width * speed
-        //Creates empty scrollview to return
-        clipsToBounds = false
+        let adjustedFrameSize = frame.width * speed
         //Calculates size of single sign and its content (including gap to next sign)
-        let singleSignContentSize = frameSize * gapBetweenSigns
-        let width = frame.size.width
+        let singleSignContentSize = adjustedFrameSize * gapBetweenSigns
         let count = CGFloat(AstrologicalSignProvider.sharedInstance.order.count)
         
         //sets the contents size to signCount * single size, adds canvas.width to account for overlap to hide snap
-        contentSize = CGSizeMake(singleSignContentSize * count + width, 1.0)
+        contentSize = CGSizeMake(singleSignContentSize * count + frame.width, 1.0)
         
         //for every frame
         for currentFrame in 0..<Int(count) {
@@ -56,7 +53,7 @@ public class StarsBackground : InfiniteScrollView {
                 //add the image to the canvas
                 add(img)
                 //if the image falls within the first view's frame (e.g. 0 < x < 320)
-                if pt.x < Double(width) {
+                if pt.x < Double(frame.width) {
                     //shift x by the entire content size
                     pt.x += Double(count * singleSignContentSize)
                     //create a new image

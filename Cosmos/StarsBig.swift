@@ -23,10 +23,7 @@ import UIKit
 public class StarsBig : InfiniteScrollView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        //Creates empty scrollview to return
-        clipsToBounds = false
-        
+       
         //grabs the current order
         var signOrder = AstrologicalSignProvider.sharedInstance.order
         //sets the contents size to signCount * single size, adds canvas.width to account for overlap to hide snap
@@ -54,44 +51,42 @@ public class StarsBig : InfiniteScrollView {
             }
         }
         
-        addDashesMarker()
+        addDashes()
+        addMarkers()
         addSignNames()
     }
     
-    //adds the short, tall and white dashes to the bottom of the view
-    func addDashesMarker() {
+    //adds the short blue dashes
+    func addDashes() {
         //grabs the points for the bottom-left and bottom-right coordinates of the contentsize
         let points = (C4Point(0,Double(frame.maxY)),C4Point(Double(contentSize.width),Double(frame.maxY)))
-
+        
         //creates a line of short dashes
         let dashes = C4Line(points)
-        dashes.lineDashPattern = [0.75,3.25]
+        dashes.lineDashPattern = [2,6]
         dashes.lineWidth = 10
         dashes.strokeColor = cosmosblue
         dashes.opacity = 0.33
         dashes.lineCap = .Butt
         
-        //creates a line of tall dashes
-        let highdashes = C4Line(points)
-        highdashes.lineDashPattern = [1,31]
-        highdashes.lineWidth = 20
-        highdashes.strokeColor = cosmosblue
-        highdashes.lineCap = .Butt
-        //adds the high dashes to the short dashes
-        dashes.add(highdashes)
-        
-        //creates a line of tall white markers
-        let marker = C4Line(points)
-        marker.lineDashPattern = [1.0,Double(frame.size.width * gapBetweenSigns)-1.0]
-        marker.lineWidth = 40
-        marker.strokeColor = white
-        marker.lineDashPhase = Double(-frame.size.width/2)
-        marker.lineCap = .Butt
-        marker.opacity = 0.33
-        marker.origin = C4Point(0,Double(frame.size.height))
-        
         add(dashes)
-        add(marker)
+    }
+    
+    //adds the tall white markers
+    func addMarkers() {
+        for i in 0..<AstrologicalSignProvider.sharedInstance.order.count {
+            let dx = Double(i) * Double(frame.width * gapBetweenSigns) + Double(frame.width / 2.0)
+            
+            let begin = C4Point(dx,Double(frame.height-20.0))
+            let end = C4Point(dx,Double(frame.height))
+            
+            let marker = C4Line((begin,end))
+            marker.lineWidth = 2
+            marker.strokeColor = white
+            marker.lineCap = .Butt
+            marker.opacity = 0.33
+            add(marker)
+        }
     }
     
     func addSignNames() {
@@ -113,7 +108,7 @@ public class StarsBig : InfiniteScrollView {
         for i in 0..<signNames.count {
             //grab the current
             let name = signNames[i]
-            
+
             //calculate the point for the sign
             var point = C4Point(offset + dx * Double(i),y)
             //grab the current sign (based on the name), add it to the view
@@ -121,17 +116,17 @@ public class StarsBig : InfiniteScrollView {
                 sign.center = point
                 add(sign)
             }
-            
+
             //offset y by a bit
             point.y += 26.0
-            
+
             //add a label for the current name
             let title = self.createSmallSignTitle(name, font: font)
             title.center = point
-            
+
             //offset y by a little bit
             point.y+=22.0
-            
+
             //calculate the current degrees
             var value = i * 30
             //if it is > 330, make it 0 so the the overlap is consistent with the first sign's label
@@ -139,7 +134,7 @@ public class StarsBig : InfiniteScrollView {
             //create a label for the degrees
             let degree = self.createSmallSignDegree(value, font: font)
             degree.center = point
-            
+
             add(title)
             add(degree)
         }
