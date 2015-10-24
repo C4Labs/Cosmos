@@ -143,7 +143,7 @@ class AstrologicalSignProvider : NSObject {
 
         let big = [
             C4Point(58.0,-57.7),
-            C4Point( )]
+            C4Point(125.50,	-17.7)]
         sign.big = big
 
         let small = [

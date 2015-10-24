@@ -49,8 +49,10 @@ class Menu : C4CanvasController {
     var selectionAction : SelectionAction?
     //An action to trigger when the user has chosen the info button from the menu
     var infoAction : InfoAction?
-    
+
+    //A sound to play when the menu closes
     let hideMenuSound = C4AudioPlayer("menuClose.mp3")!
+    //A sound to play when the menu opens
     let revealMenuSound = C4AudioPlayer("menuOpen.mp3")!
 
     //MARK: -
@@ -63,23 +65,23 @@ class Menu : C4CanvasController {
 
         //create the rings
         menuRings = MenuRings()
-        
+
         //create the selector
         menuSelector = MenuSelector()
-        
+
         //create the icons
         menuIcons = MenuIcons()
 
         //create the shadow
         menuShadow = MenuShadow()
         menuShadow.canvas.center = canvas.bounds.center
-        
+
         //add the canvases of each object in specific order (back to front)
         canvas.add(menuShadow.canvas)
         canvas.add(menuRings.canvas)
         canvas.add(menuSelector.canvas)
         canvas.add(menuIcons.canvas)
-        
+
         //create a gesture to handle interaction
         createGesture()
         //create the instruction label
@@ -90,6 +92,10 @@ class Menu : C4CanvasController {
             self.showInstruction()
         }
         timer?.start()
+
+        //makes the sounds a little quieter
+        hideMenuSound.volume = 0.64
+        revealMenuSound.volume = 0.64
     }
 
     //MARK: -
@@ -114,7 +120,7 @@ class Menu : C4CanvasController {
                 self.menuSelector.currentSelection = -1
                 //disable interaction (temporarily)
                 self.canvas.interactionEnabled = false
-                
+
                 //hide the highlight if it is visible
                 if self.menuSelector.highlight?.hidden == false {
                     self.menuSelector.highlight?.hidden = true
@@ -142,7 +148,7 @@ class Menu : C4CanvasController {
             }
         }
     }
-    
+
     //MARK: -
     //MARK: Menu Reveal / Hide
     func revealMenu() {
@@ -245,7 +251,7 @@ class Menu : C4CanvasController {
         instructionLabel.alpha = 0.0
         canvas.add(instructionLabel)
     }
-    
+
     func showInstruction() {
         C4ViewAnimation(duration: 2.5) {
             self.instructionLabel?.alpha = 1.0

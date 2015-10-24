@@ -26,21 +26,24 @@ let cosmosblue = C4Color(red: 0.094, green: 0.271, blue: 1.0, alpha: 1.0)
 let cosmosbkgd = C4Color(red: 0.078, green: 0.118, blue: 0.306, alpha: 1.0)
 
 class WorkSpace: C4CanvasController {
+    let stars = Stars()
+    let menu = Menu()
+    let info = InfoPanel()
+    let audio1 = C4AudioPlayer("audio1.mp3")!
+    let audio2 = C4AudioPlayer("audio2.mp3")!
+
     override func setup() {
         //set the background color of the main app
         canvas.backgroundColor = cosmosbkgd
 
         //create the parallax background
-        let stars = Stars()
         canvas.add(stars.canvas)
 
         //create the menu and center it
-        let menu = Menu()
         menu.canvas.center = canvas.center
         canvas.add(menu.canvas)
 
         //create the information panel
-        let info = InfoPanel()
         canvas.add(info.canvas)
 
         //assign the selection action for the menu
@@ -48,13 +51,11 @@ class WorkSpace: C4CanvasController {
         //assign the info action for the menu
         menu.infoAction = info.show
 
-        //create, loop and play the first audio file
-        let audio1 = C4AudioPlayer("audio1.mp3")!
+        //loop and play the first audio file
         audio1.loops = true
         audio1.play()
 
-        //create, loop and play the second audio file
-        let audio2 = C4AudioPlayer("audio2.mp3")!
+        //loop and play the second audio file
         audio2.loops = true
         audio2.play()
     }
