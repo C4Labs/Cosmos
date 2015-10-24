@@ -28,7 +28,7 @@ public class MenuSelector : C4CanvasController {
     //The label that displays the current selection's name
     var menuLabel : C4TextShape!
     //The shape that underlays the radial menu selection
-    var highlight : C4Shape?
+    var highlight : C4Shape!
     //The button that triggers the info panel
     var infoButton : C4View!
     //Animations
@@ -39,8 +39,6 @@ public class MenuSelector : C4CanvasController {
     //We keep these sounds here because they are triggered based
     //on the user's selection
     let tick = C4AudioPlayer("tick.mp3")!
-    let hideMenuSound = C4AudioPlayer("menuClose.mp3")!
-    let revealMenuSound = C4AudioPlayer("menuOpen.mp3")!
 
     //MARK: -
     //MARK: Setup
@@ -52,18 +50,17 @@ public class MenuSelector : C4CanvasController {
         createLabel()
         createInfoButton()
         createInfoButtonAnimations()
-        adjustVolumes()
+        tick.volume = 0.4
     }
     
-    
     //MARK: -
-    //MARK: Highlight
+    //MARK: Update
     func update(location: C4Point) {
         //check the distance of of user's gesture location
         let dist = distance(location, rhs: self.canvas.bounds.center)
         //if it is within the bounds of the out menu area
         if dist > 102 && dist < 156 {
-            highlight?.hidden = false
+            highlight.hidden = false
             //create three vectors (a & b are constant)
             let a = C4Vector(x:self.canvas.width / 2.0+1.0, y:self.canvas.height/2.0)
             let b = C4Vector(x:self.canvas.width / 2.0, y:self.canvas.height/2.0)
@@ -75,8 +72,8 @@ public class MenuSelector : C4CanvasController {
                 ϴ = 2*M_PI - ϴ
             }
             
-            //reveal the menu
-            menuLabel?.hidden = false
+            //reveal the label
+            menuLabel.hidden = false
             
             //calculate the index of the menu 0 = pices (on the right-hand side of the menu)
             let index = Int(radToDeg(ϴ)) / 30
@@ -90,15 +87,15 @@ public class MenuSelector : C4CanvasController {
                 //disable animations (because we want the text shape to switch immediately)
                 C4ShapeLayer.disableActions = true
                 //set the label's text by grabbing the name of the current selection
-                menuLabel?.text = AstrologicalSignProvider.sharedInstance.order[index].capitalizedString
+                menuLabel.text = AstrologicalSignProvider.sharedInstance.order[index].capitalizedString
                 //center the label
-                menuLabel?.center = canvas.bounds.center
+                menuLabel.center = canvas.bounds.center
                 C4ShapeLayer.disableActions = false
                 //update the current selection
                 currentSelection = index
                 //rotate the highlight
                 let rotation = C4Transform.makeRotation(degToRad(Double(currentSelection) * 30.0), axis: C4Vector(x: 0,y: 0,z: -1))
-                self.highlight?.transform = rotation
+                highlight.transform = rotation
             }
         } else {
             //the user's touch isn't within the bounds of the menu
@@ -110,11 +107,11 @@ public class MenuSelector : C4CanvasController {
             if let l = infoButton  {
                 if l.hitTest(location, from:canvas) {
                     //if the user's touch is on the info button
-                    self.menuLabel?.hidden = false
+                    menuLabel.hidden = false
                     C4ShapeLayer.disableActions = true
                     //update the label
-                    self.menuLabel?.text = "Info"
-                    self.menuLabel?.center = canvas.bounds.center
+                    menuLabel.text = "Info"
+                    menuLabel.center = canvas.bounds.center
                     C4ShapeLayer.disableActions = false
                 }
             }
@@ -126,7 +123,7 @@ public class MenuSelector : C4CanvasController {
     func createHighlight() {
         //The main shape of the highlight is a wedge that starts at the center of the canvas
         //M_PI/6.0 is technically 1/12th of a full circle
-        let highlight = C4Wedge(center: canvas.center, radius: 156, start: M_PI/6.0, end: 0.0, clockwise: false)
+        highlight = C4Wedge(center: canvas.center, radius: 156, start: M_PI/6.0, end: 0.0, clockwise: false)
         highlight.fillColor = cosmosblue
         highlight.lineWidth = 0.0
         highlight.opacity = 0.8
@@ -150,20 +147,12 @@ public class MenuSelector : C4CanvasController {
     //MARK: Menu Label
     func createLabel() {
         let f = C4Font(name: "Menlo-Regular", size: 13)!
-        let menuLabel = C4TextShape(text: "Cosmos", font: f)!
+        menuLabel = C4TextShape(text: "Cosmos", font: f)!
         menuLabel.center = canvas.center
         menuLabel.fillColor = white
         menuLabel.interactionEnabled = false
         canvas.add(menuLabel)
         menuLabel.hidden = true
-    }
-
-    //MARK: -
-    //MARK: Audio
-    func adjustVolumes() {
-        hideMenuSound.volume = 0.66
-        revealMenuSound.volume = 0.66
-        tick.volume = 0.4
     }
     
     //MARK: -
@@ -171,7 +160,7 @@ public class MenuSelector : C4CanvasController {
     func createInfoButton() {
         //The info button is a view because we want its frame to be larger than the small icon we'll use
         //This is so that area is easier to select for the user
-        let infoButton = C4View(frame: C4Rect(0,0,44,44))
+        infoButton = C4View(frame: C4Rect(0,0,44,44))
         let buttonImage = C4Image("info")!
         buttonImage.interactionEnabled = false
         buttonImage.center = infoButton.center
@@ -195,3 +184,4 @@ public class MenuSelector : C4CanvasController {
         hideInfoButton?.curve = .EaseOut
     }
 }
+

@@ -50,6 +50,9 @@ class Menu : C4CanvasController {
     //An action to trigger when the user has chosen the info button from the menu
     var infoAction : InfoAction?
     
+    let hideMenuSound = C4AudioPlayer("menuClose.mp3")!
+    let revealMenuSound = C4AudioPlayer("menuOpen.mp3")!
+
     //MARK: -
     //MARK: Setup
     override func setup() {
@@ -151,7 +154,7 @@ class Menu : C4CanvasController {
         //flag the menu as not visible (just in case)
         menuIsVisible = false
         //play the reveal sound
-        menuSelector.revealMenuSound.play()
+        revealMenuSound.play()
         //reveal the shadow
         menuShadow.reveal?.animate()
         //animate the thick ring
@@ -196,7 +199,7 @@ class Menu : C4CanvasController {
         //treat the menu as not visible while animating back to its closed state
         menuIsVisible = false
         //play the hide sound
-        menuSelector.hideMenuSound.play()
+        hideMenuSound.play()
         //hide the dashed rings
         menuRings.hideDashedRings?.animate()
         //hide the info button
@@ -231,16 +234,15 @@ class Menu : C4CanvasController {
     //MARK: Instruction Label
     func createInstructionLabel() {
         //create a basic label, style it and add it to the canvas
-        let instruction = UILabel(frame: CGRect(x: 0,y: 0,width: 320, height: 44))
-        instruction.text = "press and hold to open menu\nthen drag to choose a sign"
-        instruction.font = UIFont(name: "Menlo-Regular", size: 13)
-        instruction.textAlignment = .Center
-        instruction.textColor = .whiteColor()
-        instruction.userInteractionEnabled = false
-        instruction.center = CGPointMake(view.center.x,view.center.y - 128)
-        instruction.numberOfLines = 2
-        instruction.alpha = 0.0
-        instructionLabel = instruction
+        instructionLabel = UILabel(frame: CGRect(x: 0,y: 0,width: 320, height: 44))
+        instructionLabel.text = "press and hold to open menu\nthen drag to choose a sign"
+        instructionLabel.font = UIFont(name: "Menlo-Regular", size: 13)
+        instructionLabel.textAlignment = .Center
+        instructionLabel.textColor = .whiteColor()
+        instructionLabel.userInteractionEnabled = false
+        instructionLabel.center = CGPointMake(view.center.x,view.center.y - 128)
+        instructionLabel.numberOfLines = 2
+        instructionLabel.alpha = 0.0
         canvas.add(instructionLabel)
     }
     
@@ -249,7 +251,7 @@ class Menu : C4CanvasController {
             self.instructionLabel?.alpha = 1.0
             }.animate()
     }
-    
+
     func hideInstruction() {
         C4ViewAnimation(duration: 0.25) {
             self.instructionLabel?.alpha = 0.0

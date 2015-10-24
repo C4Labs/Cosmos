@@ -50,7 +50,7 @@ public class MenuIcons : C4CanvasController {
             }
         }
         revealSignIcons?.curve = .EaseOut
-        
+
         //animates strokeEnd so the shapes are only dots
         hideSignIcons = C4ViewAnimation(duration: 0.5) {
             for sign in [C4Shape](self.signIcons.values) {
@@ -69,7 +69,7 @@ public class MenuIcons : C4CanvasController {
             }
         }
         signIconsOut?.curve = .EaseOut
-        
+
         //moves icons to closed position
         signIconsIn = C4ViewAnimation(duration: 0.33) {
             for i in 0..<AstrologicalSignProvider.sharedInstance.order.count {
@@ -163,67 +163,67 @@ public class MenuIcons : C4CanvasController {
         shape.anchorPoint = C4Point()
         return shape
     }
-    
+
     func aries() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.aries().shape
         shape.anchorPoint = C4Point(0.0777,0.536)
         return shape
     }
-    
+
     func gemini() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.gemini().shape
         shape.anchorPoint = C4Point(0.996,0.0)
         return shape
     }
-    
+
     func cancer() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.cancer().shape
         shape.anchorPoint = C4Point(0.0,0.275)
         return shape
     }
-    
+
     func leo() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.leo().shape
         shape.anchorPoint = C4Point(0.379,0.636)
         return shape
     }
-    
+
     func virgo() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.virgo().shape
         shape.anchorPoint = C4Point(0.750,0.387)
         return shape
     }
-    
+
     func libra() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.libra().shape
         shape.anchorPoint = C4Point(1.00,0.559)
         return shape
     }
-    
+
     func pisces() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.pisces().shape
         shape.anchorPoint = C4Point(0.099,0.004)
         return shape
     }
-    
+
     func aquarius() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.aquarius().shape
         shape.anchorPoint = C4Point(0.0,0.263)
         return shape
     }
-    
+
     func sagittarius() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.sagittarius().shape
         shape.anchorPoint = C4Point(1.0,0.349)
         return shape
     }
-    
+
     func capricorn() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.capricorn().shape
         shape.anchorPoint = C4Point(0.288,0.663)
         return shape
     }
-    
+
     func scorpio() -> C4Shape {
         let shape = AstrologicalSignProvider.sharedInstance.scorpio().shape
         shape.anchorPoint = C4Point(0.255,0.775)

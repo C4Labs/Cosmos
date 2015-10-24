@@ -31,6 +31,7 @@ public class MenuRings : C4CanvasController {
     var thinRings : [C4Circle]!
     var thinRingFrames : [C4Rect]!
     var thinRingsOut : C4ViewAnimationSequence?
+    var thinRingsIn : C4ViewAnimationSequence?
 
     var dashedRings : [C4Circle]!
     var revealDashedRings : C4ViewAnimation?
@@ -60,7 +61,7 @@ public class MenuRings : C4CanvasController {
         createDashedRings()
         createMenuDividingLines()
     }
-    
+
     func createRingsLinesAnimations() {
         createThickRingAnimations()
         createThinRingsOutAnimations()
@@ -124,7 +125,7 @@ public class MenuRings : C4CanvasController {
             }
             self.thinRingFrames.append(ring.frame)
         }
-        
+
         //add all the rings to the canvas
         for ring in thinRings {
             canvas.add(ring)
@@ -155,8 +156,6 @@ public class MenuRings : C4CanvasController {
         //create an animation sequence for animating the thin rings out
         thinRingsOut = C4ViewAnimationSequence(animations: animationArray)
     }
-    
-    var thinRingsIn : C4ViewAnimationSequence?
     
     func createThinRingsInAnimations() {
         //create an array to store the animations we'll create
@@ -221,18 +220,18 @@ public class MenuRings : C4CanvasController {
         let pattern = [1.465,1.465*9.0] as [NSNumber]
         longDashedRing.lineDashPattern = pattern
         longDashedRing.strokeEnd = 0.995
-        
+
         //adjusts the angle of the shape's rotation to make the dash appear at 0 position
         let angle = degToRad(0.5)
         let rotation = C4Transform.makeRotation(angle)
         longDashedRing.transform = rotation
-        
+
         //adds a mask to the long dashed ring so that it looks like it lines up with the inner radius of the short ring
-        let mask = C4Circle(center: C4Point(longDashedRing.width/2.0,longDashedRing.height/2.0), radius: 82+4)
+        let mask = C4Circle(center: longDashedRing.bounds.center, radius: 82+4)
         mask.fillColor = clear
         mask.lineWidth = 8
         longDashedRing.layer?.mask = mask.layer
-        
+
         dashedRings.append(longDashedRing)
     }
     

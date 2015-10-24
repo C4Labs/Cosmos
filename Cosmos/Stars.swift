@@ -25,9 +25,9 @@ let gapBetweenSigns : CGFloat = 10.0
 
 class Stars : C4CanvasController, UIScrollViewDelegate {
     //Specifies how quickly each layer moves, relative to top layer, order = [bottom, ..., top]
-    var speeds : [CGFloat] = [0.08,0.0,0.10,0.12,0.15,1.0,0.8,1.0]
+    let speeds : [CGFloat] = [0.08,0.0,0.10,0.12,0.15,1.0,0.8,1.0]
     //array of infinite scrollview layers
-    lazy var scrollviews = [InfiniteScrollView]()
+    var scrollviews : [InfiniteScrollView]!
     //variable used for marking observeValueForKeyPath
     var scrollviewOffsetContext = 0
 
@@ -44,6 +44,7 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
         canvas.backgroundColor = cosmosbkgd
 
         //adds layers to parallax background
+        scrollviews = [InfiniteScrollView]()
         scrollviews.append(StarsBackground(frame: view.frame, imageName: "0Star", starCount: 20, speed: speeds[0]))
         scrollviews.append(createVignette())
         scrollviews.append(StarsBackground(frame: view.frame, imageName: "2Star", starCount: 20, speed: speeds[2]))
@@ -53,7 +54,7 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
         //Create the layer with the lines
         signLines = SignLines(frame: view.frame)
         scrollviews.append(signLines)
-        
+
         //Create the layer with the small stars
         scrollviews.append(StarsSmall(frame: view.frame, speed: speeds[6]))
 
@@ -67,7 +68,7 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
         bigStars.delegate = self
         //Add it to the list of layers
         scrollviews.append(bigStars)
-        
+
         //adds all layers to the canvas
         for sv in scrollviews {
             canvas.add(sv)
@@ -110,7 +111,7 @@ class Stars : C4CanvasController, UIScrollViewDelegate {
         //each target is essentially the placement of the white dashes for each sign
         snapTargets = [CGFloat]()
         for i in 0...12 {
-            snapTargets.append(CGFloat(Double(gapBetweenSigns) * Double(i)*canvas.width))
+            snapTargets.append(gapBetweenSigns * CGFloat(i) * view.frame.width)
         }
     }
 
